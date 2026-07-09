@@ -20,6 +20,19 @@
 
     <hr>
 
+    <form method="GET" actions="/employees">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search by Employee ID"
+            value="{{ search }}">
+
+        <button type="submit">
+            Search
+        </button>
+    </form>
+
     <button onclick="window.location.href='/add_employee'">
         Add Employee
     </button>

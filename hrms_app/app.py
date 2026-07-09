@@ -51,29 +51,50 @@ def dashboard():
 @app.route("/employees")
 def employees():
 
+    search = request.args.get("search", "")
+
     connection = sqlite3.connect("../database/hrms.db")
 
     cursor = connection.cursor()
 
-    cursor.execute(
-        """
-        SELECT employee_id, 
-               first_name, 
-               last_name, 
-               email, 
-               department, 
-               designation
-        FROM employees
-        """
-    )
+    if search:
+        cursor.execute(
+            """
+            SELECT employee_id, 
+                   first_name, 
+                   last_name, 
+                   email, 
+                   department, 
+                   designation
+            FROM employees
+            WHERE employee_id LIKE ? 
+            """,
+            ("%" + search + "%", )
+        )
+
+    else:
+
+        cursor.execute(
+            """
+            SELECT employee_id, 
+                   first_name, 
+                   last_name, 
+                   email, 
+                   department, 
+                   designation
+            FROM employees
+            """
+        )
 
     employees = cursor.fetchall()
 
     connection.close()
 
-    return render_template("employees.html", employees=employees)
-
-
+    return render_template(
+        "employees.html", 
+        employees=employees,
+        search=search
+    )
 
 @app.route("/add_employee", methods=["GET", "POST"])
 def add_employee():
