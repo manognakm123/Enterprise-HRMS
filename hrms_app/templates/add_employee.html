@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Employee</title>
+
+    <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="login-container">
+
+<h1>Add Employee</h1>
+
+<form method="POST" action="/add_employee">
+
+<label for="employee_id">Employee ID:</label>
+
+<input 
+id="employee_id" 
+name="employee_id" 
+type="text" 
+required>
+
+<label for="first_name">First Name:</label>
+
+<input 
+type="text" 
+id="first_name" 
+name="first_name" 
+required>
+
+<label for="last_name">Last Name:</label>
+<input
+type="text"
+id="last_name"
+name="last_name"
+required>
+
+
+<label for="email">Email:</label>
+        
+<input 
+type="email" 
+id="email" 
+name="email" 
+required>
+
+
+<label for="department">Department:</label>
+
+
+<select 
+id="department" 
+name="department">
+
+
+<option>HR</option>
+<option>IT</option>
+<option>Finance</option>
+<option>Testing</option>
+
+
+</select>
+
+
+<label for="designation">Designation:</label>
+
+<select 
+id="designation"
+name="designation">
+
+
+<option>Manager</option>
+<option>Senior Engineer</option>
+<option>QA Engineer</option>
+<option>Software Engineer</option>
+
+
+</select>
+
+<br><br>
+
+
+<button 
+id="save_button"
+type="submit">
+Save
+</button>
+    
+
+</form>
+
+<br>
+
+<button onclick="window.location.href='/employees'">
+    Back 
+</button>
+
+</div>
+
+</body>
+</html>

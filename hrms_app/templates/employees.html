@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Employee Management</title>
+
+    <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <h1>Employee Management</h1>
+
+    <hr>
+
+    <button onclick="window.location.href='/add_employee'">
+        Add Employee
+    </button>
+
+    <br><br>
+
+    <table border="1" cellpadding="8">
+        
+    <tr>
+        <th>Employee ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Designation</th>
+    </tr>
+    
+    {% for employee in employees %}
+    <tr>
+    
+    <td>{{ employee[0] }}</td>
+    
+    <td>{{ employee[1] }}</td>
+                
+    <td>{{ employee[2] }}</td>
+                
+    <td>{{ employee[3] }}</td>
+                
+    <td>{{ employee[4] }}</td>
+
+    <td>{{ employee[5] }}</td>
+
+    </tr>
+    
+    {% endfor %}
+
+    </table>
+
+
+    <br>
+
+    <button onclick="window.location.href='/dashboard'">
+        Dashboard
+    </button>
+
+
+</div>
+
+</body>
+
+</html>
