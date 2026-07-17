@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Employee</title>
+
+    <link rel="stylesheet"
+            href="{{ url_for('static', 
+            filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+
+<div class="login-container">
+
+<h1>Edit Employee</h1>
+
+<form method="POST">
+
+<label>Employee ID:</label>
+
+<input 
+type="text" 
+name="employee_id" 
+value="{{ employee[0] }}" 
+readonly>
+
+
+<label>First Name:</label>
+
+<input 
+type="text" 
+name="first_name" 
+value="{{ employee[1] }}">
+
+
+<label>Last Name:</label>
+
+<input 
+type="text" 
+name="last_name" 
+value="{{ employee[2] }}">
+
+
+<label>Email:</label>
+
+<input 
+type="email" 
+name="email" 
+value="{{ employee[3] }}">
+
+
+<label>Department:</label>
+
+<select name="department">
+
+<option {% if employee[4] == "IT" %}selected{% endif %}>IT</option>
+<option {% if employee[4] == "HR" %}selected{% endif %}>HR</option>
+<option {% if employee[4] == "Finance" %}selected{% endif %}>Finance</option>
+<option {% if employee[4] == "Testing" %}selected{% endif %}>Testing</option>
+
+</select>
+
+
+<label>Designation:</label>
+
+<select name="designation">
+
+<option {% if employee[5] == "Manager" %}selected{% endif %}>Manager</option>
+<option {% if employee[5] == "Software Engineer" %}selected{% endif %}>Software Engineer</option>
+<option {% if employee[5] == "QA Engineer" %}selected{% endif %}>QA Engineer</option>
+<option {% if employee[5] == "Senior Engineer" %}selected{% endif %}>Senior Engineer</option>
+
+</select>
+
+<br><br>
+
+
+<button type="submit">
+Update 
+</button>
+
+</form>
+
+</div>
+
+</body>
+
+</html>

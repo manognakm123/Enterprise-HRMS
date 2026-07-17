@@ -145,6 +145,85 @@ def add_employee():
     return render_template("add_employee.html")
 
 
+@app.route("/edit_employee/<employee_id>", methods=["GET", "POST"])
+def edit_employee(employee_id):
+
+    connection = sqlite3.connect("../database/hrms.db")
+    cursor = connection.cursor()
+
+    if request.method == "POST":
+
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
+        email = request.form.get("email")
+        department = request.form.get("department")
+        designation = request.form.get("designation")
+
+        cursor.execute("""
+            UPDATE employees
+            SET 
+                first_name = ?, 
+                last_name = ?, 
+                email = ?, 
+                department = ?, 
+                designation = ?
+            WHERE employee_id = ?
+        """, (
+            first_name, 
+            last_name, 
+            email, 
+            department, 
+            designation, 
+            employee_id
+        ))
+
+        connection.commit()
+        connection.close()
+
+        return redirect("/employees")
+
+    cursor.execute("""
+        SELECT employee_id, 
+               first_name, 
+               last_name, 
+               email, 
+               department, 
+               designation
+        FROM employees
+        WHERE employee_id=?
+        """, (employee_id,))
+
+    employee = cursor.fetchone()
+
+    connection.close()
+
+    return render_template(
+        "edit_employee.html", 
+        employee=employee
+    )
+
+
+@app.route("/delete_employee/<employee_id>")
+def delete_employee(employee_id):
+
+    
+    connection = sqlite3.connect("../database/hrms.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        DELETE FROM employees
+        WHERE employee_id = ?
+        """,
+        (employee_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect("/employees")
+
+
 @app.route("/logout")
 def logout():
     return redirect("/login")
