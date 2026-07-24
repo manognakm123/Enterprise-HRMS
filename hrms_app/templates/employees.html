@@ -20,15 +20,18 @@
 
     <hr>
 
-    <form method="GET" actions="/employees">
+    <form method="GET" action="/employees">
 
         <input
+            id="search"
             type="text"
             name="search"
             placeholder="Search by Employee ID"
             value="{{ search }}">
 
-        <button type="submit">
+        <button 
+            id="search-btn"
+            type="submit">
             Search
         </button>
     </form>
@@ -70,7 +73,7 @@
     <td>{{ employee[5] }}</td>
 
     <td>
-        <a href='/edit_employee/{{ employee[0] }}'">
+        <a href="/edit_employee/{{ employee[0] }}">
             Edit
         </a>
     
@@ -83,10 +86,6 @@
             Delete
         </a>
     </td>
-
-        <button onclick="window.location.href='/delete_employee/{{ employee[0] }}'">
-            Delete
-        </button>
 
     </tr>
     
