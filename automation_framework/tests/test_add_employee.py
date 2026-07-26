@@ -1,6 +1,7 @@
 from pages.login_page import LoginPage
 from pages.dashboard_page import DashboardPage
 from pages.add_employee_page import AddEmployeePage
+from config.config import Config
 
 
 def test_add_employee(page):
@@ -13,8 +14,13 @@ def test_add_employee(page):
 
     login.open_application()
 
-    login.login("admin", "admin123")
+    # login.login("admin", "admin123")
+    login.login(
+        Config.USERNAME,
+        Config.PASSWORD
+    )
 
+    
     dashboard.click_employee_management()
 
     add_employee.click_add_employee()

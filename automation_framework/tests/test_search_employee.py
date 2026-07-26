@@ -1,6 +1,7 @@
 from pages.login_page import LoginPage
 from pages.dashboard_page import DashboardPage
 from pages.employee_page import EmployeePage
+from config.config import Config
 
 
 def test_search_employee(page):
@@ -13,7 +14,11 @@ def test_search_employee(page):
 
     login.open_application()
 
-    login.login("admin", "admin123")
+    # login.login("admin", "admin123")
+    login.login(
+        Config.USERNAME,
+        Config.PASSWORD
+    )
 
     dashboard.click_employee_management()
 

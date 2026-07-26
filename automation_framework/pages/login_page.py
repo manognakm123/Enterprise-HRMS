@@ -1,3 +1,5 @@
+from config.config import Config
+
 class LoginPage:
     def __init__(self, page):
         self.page = page
@@ -7,7 +9,7 @@ class LoginPage:
         self.login_button = "#login-btn"
 
     def open_application(self):
-        self.page.goto("http://127.0.0.1:5000/login")
+        self.page.goto(Config.BASE_URL)
 
     def enter_username(self, username):
         self.page.fill(self.username, username)
