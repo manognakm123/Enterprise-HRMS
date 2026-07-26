@@ -1,3 +1,8 @@
+from utilities.logger import get_logger
+
+
+logger = get_logger()
+
 class DashboardPage:
 
     def __init__(self, page):
@@ -8,3 +13,6 @@ class DashboardPage:
 
     def click_employee_management(self):
         self.page.click(self.employee_management)
+
+        logger.info("Clicked Employee Management")
+

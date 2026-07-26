@@ -1,0 +1,15 @@
+2026-07-26 14:10:14,688 | INFO | This is a test log message.
+2026-07-26 14:13:13,468 | INFO | Opened HRMS application
+2026-07-26 14:13:13,505 | INFO | Entered Username
+2026-07-26 14:13:13,519 | INFO | Entered Password
+2026-07-26 14:13:13,671 | INFO | Clicked Login Button
+2026-07-26 14:13:13,671 | INFO | Login successful
+2026-07-26 14:13:13,750 | INFO | Clicked Employee Management
+2026-07-26 14:13:13,832 | INFO | Clicked Add Employee
+2026-07-26 14:13:31,518 | INFO | Opened HRMS application
+2026-07-26 14:13:31,559 | INFO | Entered Username
+2026-07-26 14:13:31,574 | INFO | Entered Password
+2026-07-26 14:13:31,718 | INFO | Clicked Login Button
+2026-07-26 14:13:31,718 | INFO | Login successful
+2026-07-26 14:13:31,868 | INFO | Clicked Employee Management
+2026-07-26 14:13:31,991 | INFO | Searching Employee EMP001

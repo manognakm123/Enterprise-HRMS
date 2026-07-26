@@ -1,5 +1,8 @@
 from playwright.sync_api import Page, expect
+from utilities.logger import get_logger
 
+
+logger = get_logger()
 
 class AddEmployeePage:
 
@@ -21,6 +24,9 @@ class AddEmployeePage:
     def click_add_employee(self):
         
         self.page.click(self.add_employee_button)
+
+        logger.info("Clicked Add Employee")
+
     
     def add_employee(
         self,
@@ -47,3 +53,5 @@ class AddEmployeePage:
         expect(
             self.page.locator(f"text={employee_id}")
         ).to_be_visible()
+
+        logger.info("Employee Added Successfully")

@@ -1,4 +1,8 @@
 from playwright.sync_api import expect
+from utilities.logger import get_logger
+
+
+logger = get_logger()
 
 class EmployeePage:
 
@@ -15,9 +19,13 @@ class EmployeePage:
 
         self.page.click(self.search_button)
 
+        logger.info("Searching Employee EMP001")
+
     def verify_employee_presence(self, employee_id):
 
         expect(
             self.page.locator(f"text={employee_id}")
         ).to_be_visible()
+
+        
         
