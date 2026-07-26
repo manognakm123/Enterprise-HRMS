@@ -2,11 +2,11 @@ import logging
 import os
 
 
-LOG_FOLDER = "logs"
+# LOG_FOLDER = "logs"
 
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# LOG_FOLDER = os.path.join(BASE_DIR, "logs")
+LOG_FOLDER = os.path.join(BASE_DIR, "logs")
 
 os.makedirs(LOG_FOLDER, exist_ok=True)
 
