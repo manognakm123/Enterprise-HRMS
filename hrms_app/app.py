@@ -148,8 +148,8 @@ def add_employee():
 @app.route("/edit_employee/<employee_id>", methods=["GET", "POST"])
 def edit_employee(employee_id):
 
-    connection = sqlite3.connect("../database/hrms.db")
-    cursor = connection.cursor()
+    # connection = sqlite3.connect("../database/hrms.db")
+    # cursor = connection.cursor()
 
     if request.method == "POST":
 
@@ -159,6 +159,11 @@ def edit_employee(employee_id):
         department = request.form.get("department")
         designation = request.form.get("designation")
 
+
+        connection = sqlite3.connect("../database/hrms.db")
+        cursor = connection.cursor()
+
+        
         cursor.execute("""
             UPDATE employees
             SET 
@@ -181,7 +186,13 @@ def edit_employee(employee_id):
         connection.close()
 
         return redirect("/employees")
+    
 
+    # GET request
+    connection = sqlite3.connect("../database/hrms.db")
+    cursor = connection.cursor()
+
+    
     cursor.execute("""
         SELECT employee_id, 
                first_name, 

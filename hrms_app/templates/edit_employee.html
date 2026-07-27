@@ -32,30 +32,35 @@ readonly>
 <label>First Name:</label>
 
 <input 
-type="text" 
-name="first_name" 
-value="{{ employee[1] }}">
+    type="text" 
+    id="first_name"
+    name="first_name" 
+    value="{{ employee[1] }}">
 
 
 <label>Last Name:</label>
 
 <input 
-type="text" 
-name="last_name" 
-value="{{ employee[2] }}">
+    type="text" 
+    id="last_name"
+    name="last_name" 
+    value="{{ employee[2] }}">
 
 
 <label>Email:</label>
 
 <input 
-type="email" 
-name="email" 
-value="{{ employee[3] }}">
+    type="email" 
+    id="email"
+    name="email" 
+    value="{{ employee[3] }}">
 
 
 <label>Department:</label>
 
-<select name="department">
+<select 
+    id="department"
+    name="department">
 
 <option {% if employee[4] == "IT" %}selected{% endif %}>IT</option>
 <option {% if employee[4] == "HR" %}selected{% endif %}>HR</option>
@@ -67,7 +72,9 @@ value="{{ employee[3] }}">
 
 <label>Designation:</label>
 
-<select name="designation">
+<select 
+    id="designation"
+    name="designation">
 
 <option {% if employee[5] == "Manager" %}selected{% endif %}>Manager</option>
 <option {% if employee[5] == "Software Engineer" %}selected{% endif %}>Software Engineer</option>
@@ -79,8 +86,10 @@ value="{{ employee[3] }}">
 <br><br>
 
 
-<button type="submit">
-Update 
+<button 
+    id="update-button"
+    type="submit">
+    Update 
 </button>
 
 </form>

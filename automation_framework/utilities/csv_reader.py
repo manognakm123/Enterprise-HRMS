@@ -5,11 +5,12 @@ def read_csv(file_path):
 
     data = []
 
-    with open(file_path, newline="") as csv_file:
+    with open(file_path, newline="", encoding="utf-8") as file:
 
-        reader = csv.DictReader(csv_file)
+        reader = csv.DictReader(file)
 
         for row in reader:
-            data.append((row["username"], row["password"]))
+            data.append(tuple(row.values()))
+            
 
     return data
