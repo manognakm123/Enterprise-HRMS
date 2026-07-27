@@ -407,3 +407,41 @@
 2026-07-27 15:15:29,992 | INFO | Clicked Employee Management
 2026-07-27 15:15:30,101 | INFO | Searching Employee EMP001
 2026-07-27 15:15:30,516 | INFO | Searching Employee EMP001
+2026-07-27 19:09:48,524 | INFO | Opened HRMS Login page
+2026-07-27 19:09:48,566 | INFO | Entered Username
+2026-07-27 19:09:48,589 | INFO | Entered Password
+2026-07-27 19:09:48,990 | INFO | Clicked Login Button
+2026-07-27 19:09:48,990 | INFO | Login successful
+2026-07-27 19:09:49,105 | INFO | Clicked Employee Management
+2026-07-27 19:22:11,077 | INFO | Opened HRMS Login page
+2026-07-27 19:22:11,126 | INFO | Entered Username
+2026-07-27 19:22:11,143 | INFO | Entered Password
+2026-07-27 19:22:11,355 | INFO | Clicked Login Button
+2026-07-27 19:22:11,356 | INFO | Login successful
+2026-07-27 19:22:11,440 | INFO | Clicked Employee Management
+2026-07-27 19:22:11,561 | INFO | Searching Employee EMP001
+2026-07-27 19:28:19,552 | INFO | Opened HRMS Login page
+2026-07-27 19:28:19,593 | INFO | Entered Username
+2026-07-27 19:28:19,611 | INFO | Entered Password
+2026-07-27 19:28:19,790 | INFO | Clicked Login Button
+2026-07-27 19:28:19,790 | INFO | Login successful
+2026-07-27 19:28:19,902 | INFO | Clicked Employee Management
+2026-07-27 19:29:26,773 | INFO | Opened HRMS Login page
+2026-07-27 19:29:26,815 | INFO | Entered Username
+2026-07-27 19:29:26,830 | INFO | Entered Password
+2026-07-27 19:29:27,034 | INFO | Clicked Login Button
+2026-07-27 19:29:27,034 | INFO | Login successful
+2026-07-27 19:29:27,195 | INFO | Clicked Employee Management
+2026-07-27 19:36:52,537 | INFO | Opened HRMS Login page
+2026-07-27 19:36:52,581 | INFO | Entered Username
+2026-07-27 19:36:52,597 | INFO | Entered Password
+2026-07-27 19:36:52,775 | INFO | Clicked Login Button
+2026-07-27 19:36:52,775 | INFO | Login successful
+2026-07-27 19:36:52,858 | INFO | Clicked Employee Management
+2026-07-27 19:38:01,633 | INFO | Opened HRMS Login page
+2026-07-27 19:38:01,676 | INFO | Entered Username
+2026-07-27 19:38:01,689 | INFO | Entered Password
+2026-07-27 19:38:01,842 | INFO | Clicked Login Button
+2026-07-27 19:38:01,842 | INFO | Login successful
+2026-07-27 19:38:01,924 | INFO | Clicked Employee Management
+2026-07-27 19:38:02,043 | INFO | Searching Employee EMP001
