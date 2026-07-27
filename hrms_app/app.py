@@ -34,7 +34,7 @@ def login():
         connection.close()
 
         if user:
-            return render_template("dashboard.html")
+            return redirect("/dashboard")
         else:
             return render_template(
                 "login.html",
@@ -206,7 +206,7 @@ def edit_employee(employee_id):
 @app.route("/delete_employee/<employee_id>")
 def delete_employee(employee_id):
 
-    
+
     connection = sqlite3.connect("../database/hrms.db")
     cursor = connection.cursor()
 

@@ -16,9 +16,9 @@ class LoginPage:
         self.login_button = "#login-btn"
 
     def open_application(self):
-        self.page.goto(Config.BASE_URL)
+        self.page.goto(Config.BASE_URL + "/login")
 
-        logger.info("Opened HRMS application")
+        logger.info("Opened HRMS Login page")
 
 
     def enter_username(self, username):

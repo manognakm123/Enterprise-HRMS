@@ -15,3 +15,16 @@ def test_login(page, username, password):
     login.open_application()
 
     login.login(username, password)
+
+
+
+    if username == "admin" and password == "admin123":
+        page.wait_for_url("**/dashboard")
+        assert "dashboard" in page.url.lower()
+
+    else:
+        assert "login" in page.url.lower()
+        error_message = page.locator("text=Invalid username or password.")
+        error_message.wait_for(state="visible")
+        assert error_message.is_visible()
+        # assert page.locator("text=Invalid username or password.").is_visible()
