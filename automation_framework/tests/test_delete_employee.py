@@ -7,6 +7,7 @@ from pages.delete_employee_page import DeleteEmployeePage
 
 
 from utilities.csv_reader import read_csv
+from utilities.database_helper import employee_exists
 
 
 test_data = read_csv(
@@ -36,5 +37,10 @@ def test_delete_employee(page, employee_id):
 
     page.wait_for_load_state("networkidle")
 
-
+    # UI validation
+    
     assert employee_id not in page.content()
+
+    # Database Validation
+
+    assert not employee_exists(employee_id)

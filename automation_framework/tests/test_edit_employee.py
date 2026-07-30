@@ -7,6 +7,7 @@ from pages.edit_employee_page import EditEmployeePage
 
 
 from utilities.csv_reader import read_csv
+from utilities.database_helper import get_employee
 
 
 test_data = read_csv(
@@ -56,6 +57,12 @@ def test_edit_employee(
 
     edit.click_update()
 
+    page.wait_for_url("**/employees")
+
+    # print(page.url)
+    # print(page.title())
+    
+
     employee.search_employee(employee_id)
 
     # assert employee_id in page.content()
@@ -79,3 +86,18 @@ def test_edit_employee(
     assert email in table_text
     assert department in table_text
     assert designation in table_text
+
+
+
+    # Database validation
+
+    db_employee = get_employee(employee_id)
+
+    assert db_employee is not None
+
+    assert db_employee[1] == employee_id
+    assert db_employee[2] == first_name
+    assert db_employee[3] == last_name
+    assert db_employee[4] == email
+    assert db_employee[5] == department
+    assert db_employee[6] == designation

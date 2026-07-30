@@ -15,6 +15,8 @@ class EmployeePage:
 
     def search_employee(self, employee_id):
 
+        self.page.wait_for_selector(self.search_box)
+
         self.page.fill(self.search_box, employee_id)
 
         self.page.click(self.search_button)
