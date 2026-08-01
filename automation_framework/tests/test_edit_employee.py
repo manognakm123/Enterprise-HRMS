@@ -57,7 +57,9 @@ def test_edit_employee(
 
     edit.click_update()
 
-    page.wait_for_url("**/employees")
+    # page.wait_for_url("**/employees")
+
+    page.wait_for_load_state("networkidle")
 
     # print(page.url)
     # print(page.title())

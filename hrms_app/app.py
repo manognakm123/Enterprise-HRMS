@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 import sqlite3
 
 
@@ -95,6 +95,43 @@ def employees():
         employees=employees,
         search=search
     )
+
+
+@app.route("/api/employees", methods=["GET"])
+def api_get_employee():
+    connection = sqlite3.connect("../database/hrms.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT employee_id,
+                first_name,
+                last_name,
+                email,
+                department,
+                designation
+        FROM employees
+    """)
+
+    rows = cursor.fetchall()
+
+    connection.close()
+
+    employees = []
+
+    for row in rows:
+
+        employees.append({
+            "employee_id": row[0],
+            "first_name": row[1],
+            "last_name": row[2],
+            "email": row[3],
+            "department": row[4],
+            "designation": row[5]
+        })
+
+    return jsonify(employees)
+
+
 
 @app.route("/add_employee", methods=["GET", "POST"])
 def add_employee():

@@ -1,93 +1,99 @@
 import sqlite3
-from pathlib import Path
+# from pathlib import Path
+
+from utilities.logger import get_logger
+
+logger = get_logger()
 
 
 def connect_database():
     """
     Establishes a connection to the SQLite database.
     
-    Returns:
-        sqlite3.Connection: Database connection object.
     """
 
+    try:
+        connection = sqlite3.connect("database/hrms.db")
+        logger.info("Connected to SQLite database")
+        return connection
 
-    project_root = Path(__file__).resolve().parents[2]
-    database_path = project_root / "database" / "hrms.db"
+    except sqlite3.Error as e:
+        logger.error(f"Database connection failed: {e}")
+        raise
 
 
-    connection = sqlite3.connect(database_path)
+    # project_root = Path(__file__).resolve().parents[2]
+    # database_path = project_root / "database" / "hrms.db"
 
 
-    return connection
+    # connection = sqlite3.connect(database_path)
+
+
+    # return connection
 
 
 
 def employee_exists(employee_id):
-    """
+    # """
     
-    Checks whether an employee exists in the database.
+    # Checks whether an employee exists in the database.
     
     
-    Args:
-        employee_id (str): Employee ID to search.
+    # Args:
+    #     employee_id (str): Employee ID to search.
         
         
-    Returns:
-        bool: True if employee exists, otherwise False.
-    """
+    # Returns:
+    #     bool: True if employee exists, otherwise False.
+    # """
 
+    with connect_database() as connection:
 
-    connection = connect_database()
-    cursor = connection.cursor()
+        cursor = connection.cursor()
 
+        cursor.execute(
+            "SELECT * FROM employees WHERE employee_id = ?", 
+            (employee_id,)
+        )
 
-    query = """
-        SELECT 1
-        FROM employees
-        WHERE employee_id = ?
-    """
+        employee = cursor.fetchone()
 
+        if employee:
+            logger.info(f"Employee {employee_id} found in database.")
+            return True
 
-    cursor.execute(query, (employee_id,))
-
-    result = cursor.fetchone()
-
-    connection.close()
-
-    return result is not None
-
+        logger.info(f"Employee {employee_id} not found in database.")
+        return False
 
 
 def get_employee(employee_id):
-    """
+    # """
     
-    Retrieves an employee record from the database.
+    # Retrieves an employee record from the database.
     
-    Args:
-        employee_id (str): Employee ID to search.
+    # Args:
+    #     employee_id (str): Employee ID to search.
         
         
-    Returns:
-        tuple | None: Employee record if found, otherwise None.
-    """
+    # Returns:
+    #     tuple | None: Employee record if found, otherwise None.
+    # """
+
+    with connect_database() as connection:
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "SELECT * FROM employees WHERE employee_id = ?", 
+            (employee_id,)
+        )
+
+        employee = cursor.fetchone()
 
 
-    connection = connect_database()
-    cursor = connection.cursor()
+        if employee:
+            logger.info(f"Retrieved employee {employee_id} from database.")
+        else:
+            logger.warning(f"Employee {employee_id} not found.")
 
 
-    query = """
-        SELECT *
-        FROM employees
-        WHERE employee_id = ?
-    """
-
-
-    cursor.execute(query, (employee_id,))
-
-    employee = cursor.fetchone()
-
-
-    connection.close()
-
-    return employee
+        return employee

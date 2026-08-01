@@ -504,3 +504,62 @@
 2026-07-30 11:04:21,808 | INFO | Login successful
 2026-07-30 11:04:21,881 | INFO | Clicked Employee Management
 2026-07-30 11:04:22,005 | INFO | Searching Employee EMP001
+2026-07-30 11:46:26,807 | INFO | Connected to SQLite database
+2026-07-30 11:46:26,809 | INFO | Employee EMP001 not found in database.
+2026-07-30 11:47:22,052 | INFO | Connected to SQLite database
+2026-07-30 11:47:22,053 | INFO | Employee EMP001 found in database.
+2026-07-30 11:51:32,322 | INFO | Connected to SQLite database
+2026-07-30 11:51:32,323 | INFO | Retrieved employee EMP001 from database.
+2026-07-30 11:52:02,906 | INFO | Opened HRMS Login page
+2026-07-30 11:52:02,948 | INFO | Entered Username
+2026-07-30 11:52:02,962 | INFO | Entered Password
+2026-07-30 11:52:03,129 | INFO | Clicked Login Button
+2026-07-30 11:52:03,130 | INFO | Login successful
+2026-07-30 11:52:03,302 | INFO | Clicked Employee Management
+2026-07-30 11:52:03,512 | INFO | Clicked Add Employee
+2026-07-30 11:52:03,716 | INFO | Connected to SQLite database
+2026-07-30 11:52:03,718 | INFO | Employee EMP010 found in database.
+2026-07-30 11:52:03,718 | INFO | Connected to SQLite database
+2026-07-30 11:52:03,720 | INFO | Retrieved employee EMP010 from database.
+2026-07-30 11:52:25,905 | INFO | Opened HRMS Login page
+2026-07-30 11:52:25,951 | INFO | Entered Username
+2026-07-30 11:52:25,965 | INFO | Entered Password
+2026-07-30 11:52:26,069 | INFO | Clicked Login Button
+2026-07-30 11:52:26,069 | INFO | Login successful
+2026-07-30 11:52:26,231 | INFO | Clicked Employee Management
+2026-07-30 11:52:26,363 | INFO | Searching Employee EMP001
+2026-07-30 11:53:37,787 | INFO | Opened HRMS Login page
+2026-07-30 11:53:37,838 | INFO | Entered Username
+2026-07-30 11:53:37,853 | INFO | Entered Password
+2026-07-30 11:53:38,040 | INFO | Clicked Login Button
+2026-07-30 11:53:38,041 | INFO | Login successful
+2026-07-30 11:53:38,171 | INFO | Clicked Employee Management
+2026-07-30 11:53:38,334 | INFO | Searching Employee EMP001
+2026-07-30 11:53:45,162 | INFO | Connected to SQLite database
+2026-07-30 11:53:45,164 | INFO | Employee EMP001 found in database.
+2026-07-30 11:58:56,652 | INFO | Opened HRMS Login page
+2026-07-30 11:58:56,689 | INFO | Entered Username
+2026-07-30 11:58:56,707 | INFO | Entered Password
+2026-07-30 11:58:56,973 | INFO | Clicked Login Button
+2026-07-30 11:58:56,974 | INFO | Login successful
+2026-07-30 11:58:57,126 | INFO | Clicked Employee Management
+2026-07-30 11:58:57,332 | INFO | Searching Employee EMP001
+2026-07-30 12:00:21,519 | INFO | Opened HRMS Login page
+2026-07-30 12:00:21,567 | INFO | Entered Username
+2026-07-30 12:00:21,593 | INFO | Entered Password
+2026-07-30 12:00:21,768 | INFO | Clicked Login Button
+2026-07-30 12:00:21,769 | INFO | Login successful
+2026-07-30 12:00:21,897 | INFO | Clicked Employee Management
+2026-07-30 12:00:22,117 | INFO | Searching Employee EMP001
+2026-07-31 20:08:04,149 | INFO | Opened HRMS Login page
+2026-07-31 20:08:04,198 | INFO | Entered Username
+2026-07-31 20:08:04,214 | INFO | Entered Password
+2026-07-31 20:08:04,777 | INFO | Clicked Login Button
+2026-07-31 20:08:04,777 | INFO | Login successful
+2026-07-31 20:08:04,904 | INFO | Clicked Employee Management
+2026-07-31 20:08:05,108 | INFO | Searching Employee EMP001
+2026-07-31 20:08:05,893 | INFO | Connected to SQLite database
+2026-07-31 20:08:05,894 | INFO | Employee EMP001 not found in database.
+2026-08-01 19:56:29,317 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees
+2026-08-01 19:56:29,329 | INFO | Response Time: 11.68 ms
+2026-08-01 19:56:29,330 | INFO | Status Code: 200
