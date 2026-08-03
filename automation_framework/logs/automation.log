@@ -586,3 +586,31 @@
 2026-08-03 13:12:27,916 | INFO | Status Code: 201
 2026-08-03 13:12:27,923 | INFO | Connected to SQLite database
 2026-08-03 13:12:27,926 | INFO | Employee EMP100 found in database.
+2026-08-03 13:41:01,452 | INFO | Sending PUT request to http://127.0.0.1:5000/api/employees/EMP100
+2026-08-03 13:41:01,476 | INFO | Response Time: 23.36 ms
+2026-08-03 13:41:01,477 | INFO | Status Code: 200
+2026-08-03 13:41:01,484 | INFO | Connected to SQLite database
+2026-08-03 13:41:01,486 | INFO | Retrieved employee EMP100 from database.
+2026-08-03 13:41:45,448 | INFO | Sending PUT request to http://127.0.0.1:5000/api/employees/EMP100
+2026-08-03 13:41:45,454 | INFO | Response Time: 6.59 ms
+2026-08-03 13:41:45,455 | INFO | Status Code: 200
+2026-08-03 13:41:45,456 | INFO | Connected to SQLite database
+2026-08-03 13:41:45,456 | INFO | Retrieved employee EMP100 from database.
+2026-08-03 13:42:45,969 | INFO | Sending PUT request to http://127.0.0.1:5000/api/employees/EMP100
+2026-08-03 13:42:45,976 | INFO | Response Time: 6.58 ms
+2026-08-03 13:42:45,976 | INFO | Status Code: 200
+2026-08-03 13:42:45,977 | INFO | Connected to SQLite database
+2026-08-03 13:42:45,977 | INFO | Retrieved employee EMP100 from database.
+2026-08-03 13:49:45,247 | INFO | Sending PUT request to http://127.0.0.1:5000/api/employees/EMP100
+2026-08-03 13:49:45,256 | INFO | Response Time: 8.95 ms
+2026-08-03 13:49:45,257 | INFO | Status Code: 200
+2026-08-03 13:49:45,258 | INFO | Connected to SQLite database
+2026-08-03 13:49:45,258 | INFO | Retrieved employee EMP100 from database.
+2026-08-03 14:05:21,896 | INFO | Sending DELETE request to http://127.0.0.1:5000/api/employees/EMP100
+2026-08-03 14:05:21,903 | INFO | Response Time: 6.24 ms
+2026-08-03 14:05:21,903 | INFO | Status Code: 405
+2026-08-03 14:05:42,933 | INFO | Sending DELETE request to http://127.0.0.1:5000/api/employees/EMP100
+2026-08-03 14:05:42,946 | INFO | Response Time: 12.29 ms
+2026-08-03 14:05:42,946 | INFO | Status Code: 200
+2026-08-03 14:05:42,951 | INFO | Connected to SQLite database
+2026-08-03 14:05:42,952 | INFO | Employee EMP100 not found in database.

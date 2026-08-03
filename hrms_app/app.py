@@ -257,6 +257,42 @@ def add_employee():
     return render_template("add_employee.html")
 
 
+
+@app.route("/api/employees/<employee_id>", methods=["PUT"])
+def api_update_employee(employee_id):
+
+    data = request.get_json()
+
+    connection = sqlite3.connect("../database/hrms.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        UPDATE employees
+        SET 
+            first_name = ?, 
+            last_name = ?, 
+            email = ?, 
+            department = ?, 
+            designation = ?
+        WHERE employee_id = ?
+    """, (
+        data["first_name"],
+        data["last_name"],
+        data["email"],
+        data["department"],
+        data["designation"],
+        employee_id
+    ))
+
+    connection.commit()
+    connection.close()
+
+    return jsonify({
+        "message": "Employee updated successfully"
+    }), 200
+
+
+
 @app.route("/edit_employee/<employee_id>", methods=["GET", "POST"])
 def edit_employee(employee_id):
 
@@ -345,6 +381,32 @@ def delete_employee(employee_id):
     connection.close()
 
     return redirect("/employees")
+
+
+
+@app.route("/api/employees/<employee_id>", methods=["DELETE"])
+def api_delete_employee(employee_id):
+
+
+    connection = sqlite3.connect("../database/hrms.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        DELETE FROM employees
+        WHERE employee_id = ?
+        """,
+        (employee_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return jsonify({
+        "message": "Employee deleted successfully"
+    }), 200
+
+
 
 
 @app.route("/logout")
