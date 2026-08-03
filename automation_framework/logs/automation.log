@@ -578,3 +578,11 @@
 2026-08-03 12:27:49,948 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees/EMP999
 2026-08-03 12:27:49,955 | INFO | Response Time: 6.5 ms
 2026-08-03 12:27:49,955 | INFO | Status Code: 404
+2026-08-03 13:09:28,728 | INFO | Sending POST request to http://127.0.0.1:5000/api/employees
+2026-08-03 13:09:28,788 | INFO | Response Time: 59.31 ms
+2026-08-03 13:09:28,788 | INFO | Status Code: 405
+2026-08-03 13:12:27,898 | INFO | Sending POST request to http://127.0.0.1:5000/api/employees
+2026-08-03 13:12:27,915 | INFO | Response Time: 15.92 ms
+2026-08-03 13:12:27,916 | INFO | Status Code: 201
+2026-08-03 13:12:27,923 | INFO | Connected to SQLite database
+2026-08-03 13:12:27,926 | INFO | Employee EMP100 found in database.

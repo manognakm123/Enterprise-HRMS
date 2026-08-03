@@ -167,6 +167,47 @@ def api_get_employee_by_ID(employee_id):
     })
 
 
+
+@app.route("/api/employees", methods=["POST"])
+def api_add_employee():
+
+
+    data = request.get_json()
+
+
+    connection = sqlite3.connect("../database/hrms.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        INSERT INTO employees 
+        (
+            employee_id, 
+            first_name, 
+            last_name, 
+            email, 
+            department, 
+            designation
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, 
+    (
+        data["employee_id"],
+        data["first_name"],
+        data["last_name"],
+        data["email"],
+        data["department"],
+        data["designation"]
+    ))
+
+    connection.commit()
+    connection.close()
+
+    return jsonify({
+        "message": "Employee created successfully"
+    }), 201
+
+
+
 @app.route("/add_employee", methods=["GET", "POST"])
 def add_employee():
 
