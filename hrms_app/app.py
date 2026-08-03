@@ -133,6 +133,40 @@ def api_get_employee():
 
 
 
+@app.route("/api/employees/<employee_id>", methods=["GET"])
+def api_get_employee_by_ID(employee_id):
+
+    connection = sqlite3.connect("../database/hrms.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT employee_id,
+                first_name,
+                last_name,
+                email,
+                department,
+                designation
+        FROM employees
+        WHERE employee_id=?
+    """, (employee_id,))
+
+    employee = cursor.fetchone()
+
+    connection.close()
+
+    if employee is None:
+        return jsonify({"error": "Employee not found"}), 404
+
+    return jsonify({
+        "employee_id": employee[0],
+        "first_name": employee[1],
+        "last_name": employee[2],
+        "email": employee[3],
+        "department": employee[4],
+        "designation": employee[5]
+    })
+
+
 @app.route("/add_employee", methods=["GET", "POST"])
 def add_employee():
 

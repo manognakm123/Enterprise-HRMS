@@ -563,3 +563,18 @@
 2026-08-01 19:56:29,317 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees
 2026-08-01 19:56:29,329 | INFO | Response Time: 11.68 ms
 2026-08-01 19:56:29,330 | INFO | Status Code: 200
+2026-08-03 11:53:44,834 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees/EMP002
+2026-08-03 11:53:44,913 | INFO | Response Time: 77.39 ms
+2026-08-03 11:53:44,913 | INFO | Status Code: 200
+2026-08-03 11:57:46,533 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees
+2026-08-03 11:57:46,540 | INFO | Response Time: 6.7 ms
+2026-08-03 11:57:46,540 | INFO | Status Code: 200
+2026-08-03 12:01:17,120 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees/EMP002
+2026-08-03 12:01:17,135 | INFO | Response Time: 14.7 ms
+2026-08-03 12:01:17,135 | INFO | Status Code: 200
+2026-08-03 12:27:49,917 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees/EMP002
+2026-08-03 12:27:49,944 | INFO | Response Time: 26.29 ms
+2026-08-03 12:27:49,944 | INFO | Status Code: 200
+2026-08-03 12:27:49,948 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees/EMP999
+2026-08-03 12:27:49,955 | INFO | Response Time: 6.5 ms
+2026-08-03 12:27:49,955 | INFO | Status Code: 404
