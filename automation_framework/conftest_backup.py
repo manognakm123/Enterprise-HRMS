@@ -12,29 +12,9 @@ def browser():
 
     with sync_playwright() as p:
 
-        if Config.BROWSER.lower() == "chromium":
-
-            browser = p.chromium.launch(
-                headless=Config.HEADLESS
-            )
-
-        elif Config.BROWSER.lower() == "firefox":
-
-            browser = p.firefox.launch(
-                headless=Config.HEADLESS
-            )
-
-        elif Config.BROWSER.lower() == "webkit":
-
-            browser = p.webkit.launch(
-                headless=Config.HEADLESS
-            )
-
-
-        else:
-            raise ValueError(
-                f"Unsupported browser: {Config.BROWSER}"
-            )
+        browser = p.chromium.launch(
+            headless=Config.HEADLESS
+        )
 
         yield browser
 
@@ -70,7 +50,7 @@ def page(browser,request):
 
         )
 
-        # browser.close()
+        browser.close()
 
 
 # Hook to know whether test passed or failed

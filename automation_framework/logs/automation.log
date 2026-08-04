@@ -772,3 +772,83 @@
 2026-08-04 09:26:38,707 | INFO | Employee EMP300 not found in database.
 2026-08-04 09:26:38,831 | INFO | Clicked Employee Management
 2026-08-04 09:26:38,957 | INFO | Searching Employee EMP300
+2026-08-04 11:05:42,812 | INFO | Opened HRMS Login page
+2026-08-04 11:05:42,855 | INFO | Entered Username
+2026-08-04 11:05:42,870 | INFO | Entered Password
+2026-08-04 11:05:43,050 | INFO | Clicked Login Button
+2026-08-04 11:05:43,050 | INFO | Login successful
+2026-08-04 11:05:45,337 | INFO | Opened HRMS Login page
+2026-08-04 11:05:45,377 | INFO | Entered Username
+2026-08-04 11:05:45,391 | INFO | Entered Password
+2026-08-04 11:05:45,567 | INFO | Clicked Login Button
+2026-08-04 11:05:45,568 | INFO | Login successful
+2026-08-04 11:05:49,302 | INFO | Opened HRMS Login page
+2026-08-04 11:05:49,366 | INFO | Entered Username
+2026-08-04 11:05:49,397 | INFO | Entered Password
+2026-08-04 11:05:49,703 | INFO | Clicked Login Button
+2026-08-04 11:05:49,704 | INFO | Login successful
+2026-08-04 11:05:53,265 | INFO | Opened HRMS Login page
+2026-08-04 11:05:53,304 | INFO | Entered Username
+2026-08-04 11:05:53,319 | INFO | Entered Password
+2026-08-04 11:05:53,435 | INFO | Clicked Login Button
+2026-08-04 11:05:53,435 | INFO | Login successful
+2026-08-04 11:15:30,256 | INFO | Opened HRMS Login page
+2026-08-04 11:15:30,301 | INFO | Entered Username
+2026-08-04 11:15:30,317 | INFO | Entered Password
+2026-08-04 11:15:30,522 | INFO | Clicked Login Button
+2026-08-04 11:15:30,522 | INFO | Login successful
+2026-08-04 11:15:32,657 | INFO | Opened HRMS Login page
+2026-08-04 11:15:32,706 | INFO | Entered Username
+2026-08-04 11:15:32,741 | INFO | Entered Password
+2026-08-04 11:15:32,968 | INFO | Clicked Login Button
+2026-08-04 11:15:32,968 | INFO | Login successful
+2026-08-04 11:15:36,765 | INFO | Opened HRMS Login page
+2026-08-04 11:15:36,818 | INFO | Entered Username
+2026-08-04 11:15:36,847 | INFO | Entered Password
+2026-08-04 11:15:37,127 | INFO | Clicked Login Button
+2026-08-04 11:15:37,127 | INFO | Login successful
+2026-08-04 11:15:41,949 | INFO | Opened HRMS Login page
+2026-08-04 11:15:42,007 | INFO | Entered Username
+2026-08-04 11:15:42,023 | INFO | Entered Password
+2026-08-04 11:15:42,201 | INFO | Clicked Login Button
+2026-08-04 11:15:42,201 | INFO | Login successful
+2026-08-04 14:01:58,397 | INFO | Opened HRMS Login page
+2026-08-04 14:01:58,431 | INFO | Entered Username
+2026-08-04 14:01:58,448 | INFO | Entered Password
+2026-08-04 14:01:58,697 | INFO | Clicked Login Button
+2026-08-04 14:01:58,697 | INFO | Login successful
+2026-08-04 14:02:00,925 | INFO | Opened HRMS Login page
+2026-08-04 14:02:00,971 | INFO | Entered Username
+2026-08-04 14:02:00,990 | INFO | Entered Password
+2026-08-04 14:02:01,188 | INFO | Clicked Login Button
+2026-08-04 14:02:01,188 | INFO | Login successful
+2026-08-04 14:02:04,150 | INFO | Opened HRMS Login page
+2026-08-04 14:02:04,183 | INFO | Entered Username
+2026-08-04 14:02:04,198 | INFO | Entered Password
+2026-08-04 14:02:04,395 | INFO | Clicked Login Button
+2026-08-04 14:02:04,395 | INFO | Login successful
+2026-08-04 14:02:06,351 | INFO | Opened HRMS Login page
+2026-08-04 14:02:06,396 | INFO | Entered Username
+2026-08-04 14:02:06,412 | INFO | Entered Password
+2026-08-04 14:02:06,586 | INFO | Clicked Login Button
+2026-08-04 14:02:06,587 | INFO | Login successful
+2026-08-04 14:11:11,305 | INFO | Opened HRMS Login page
+2026-08-04 14:11:11,400 | INFO | Entered Username
+2026-08-04 14:11:11,424 | INFO | Entered Password
+2026-08-04 14:11:11,671 | INFO | Clicked Login Button
+2026-08-04 14:11:11,671 | INFO | Login successful
+2026-08-04 14:11:15,188 | INFO | Opened HRMS Login page
+2026-08-04 14:11:15,292 | INFO | Entered Username
+2026-08-04 14:11:15,338 | INFO | Entered Password
+2026-08-04 14:11:15,697 | INFO | Clicked Login Button
+2026-08-04 14:11:15,697 | INFO | Login successful
+2026-08-04 14:11:18,713 | INFO | Opened HRMS Login page
+2026-08-04 14:11:18,787 | INFO | Entered Username
+2026-08-04 14:11:18,812 | INFO | Entered Password
+2026-08-04 14:11:19,076 | INFO | Clicked Login Button
+2026-08-04 14:11:19,076 | INFO | Login successful
+2026-08-04 14:11:22,605 | INFO | Opened HRMS Login page
+2026-08-04 14:11:22,681 | INFO | Entered Username
+2026-08-04 14:11:22,724 | INFO | Entered Password
+2026-08-04 14:11:22,942 | INFO | Clicked Login Button
+2026-08-04 14:11:22,942 | INFO | Login successful
