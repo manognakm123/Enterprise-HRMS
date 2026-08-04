@@ -21,7 +21,7 @@ class EmployeePage:
 
         self.page.click(self.search_button)
 
-        logger.info("Searching Employee EMP001")
+        logger.info(f"Searching Employee {employee_id}")
 
     def verify_employee_presence(self, employee_id):
 
