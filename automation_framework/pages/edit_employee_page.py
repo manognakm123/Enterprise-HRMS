@@ -5,7 +5,7 @@ class EditEmployeePage:
 
         self.page = page
 
-        self.edit_button = "a[href='/edit_employee/EMP001']"
+        # self.edit_button = "a[href='/edit_employee/EMP001']"
 
         self.first_name = "#first_name"
 
@@ -20,9 +20,11 @@ class EditEmployeePage:
         self.update_button = "button[type='submit']"
 
 
-    def click_edit(self):
+    def click_edit(self, employee_id):
 
-        self.page.click(self.edit_button)
+        edit_button = f"a[href='/edit_employee/{employee_id}']"
+
+        self.page.click(edit_button)
 
 
     def edit_employee(

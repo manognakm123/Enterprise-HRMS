@@ -97,3 +97,20 @@ def get_employee(employee_id):
 
 
         return employee
+
+
+
+def delete_employee(employee_id):
+
+    with connect_database() as connection:
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "DELETE FROM employees WHERE employee_id = ?", 
+            (employee_id,)
+        )
+
+        connection.commit()
+
+        logger.info(f"Employee {employee_id} deleted from database.")

@@ -15,6 +15,7 @@ test_data = read_csv(
 )
 
 
+@pytest.mark.ui
 @pytest.mark.parametrize(
     "employee_id, first_name, last_name, email, department, designation",
     test_data
@@ -45,7 +46,7 @@ def test_edit_employee(
     employee.search_employee(employee_id)
 
 
-    edit.click_edit()
+    edit.click_edit(employee_id)
 
     edit.edit_employee(
         first_name,

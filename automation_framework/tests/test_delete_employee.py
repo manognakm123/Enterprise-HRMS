@@ -15,7 +15,7 @@ test_data = read_csv(
 )
 
 
-
+@pytest.mark.ui
 @pytest.mark.parametrize(("employee_id",), test_data)
 def test_delete_employee(page, employee_id):
 

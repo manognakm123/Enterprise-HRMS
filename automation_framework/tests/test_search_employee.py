@@ -1,9 +1,12 @@
+import pytest
+
 from pages.login_page import LoginPage
 from pages.dashboard_page import DashboardPage
 from pages.employee_page import EmployeePage
 from config.config import Config
 
 
+@pytest.mark.ui
 def test_search_employee(page):
 
     login = LoginPage(page)

@@ -6,7 +6,7 @@ class Config:
 
     PASSWORD = "admin123"
 
-    BROWSER = "firefox"
+    BROWSER = "chromium"
 
     HEADLESS = False
 

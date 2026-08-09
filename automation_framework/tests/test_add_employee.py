@@ -1,12 +1,18 @@
+import pytest
+
 from pages.login_page import LoginPage
 from pages.dashboard_page import DashboardPage
 from pages.add_employee_page import AddEmployeePage
 from config.config import Config
 
-from utilities.database_helper import employee_exists, get_employee
+from utilities.database_helper import (
+    employee_exists, 
+    get_employee, 
+    delete_employee
+)
 
 
-
+@pytest.mark.ui
 def test_add_employee(page):
 
     login = LoginPage(page)
@@ -16,53 +22,64 @@ def test_add_employee(page):
 
     # Test data
 
-    employee_id = "EMP010"
-    first_name = "Rohit"
-    last_name = "Sharma"
-    email = "rohit@hitman.com"
+    employee_id = "EMP002"
+    first_name = "Manu"
+    last_name = "K M"
+    email = "manu@gmail.com"
     department = "IT"
-    designation = "Software Engineer"
+    designation = "QA Engineer"
 
 
-    login.open_application()
+    # Cleanup in case the test data already exists
+    if employee_exists(employee_id):
+        delete_employee(employee_id)
 
-    # login.login("admin", "admin123")
-    login.login(
-        Config.USERNAME,
-        Config.PASSWORD
-    )
+    try:
 
+        login.open_application()
 
-    dashboard.click_employee_management()
-
-    add_employee.click_add_employee()
-
-
-    add_employee.add_employee(
-        employee_id,
-        first_name,
-        last_name,
-        email,
-        department,
-        designation
-    )
+        # login.login("admin", "admin123")
+        login.login(
+            Config.USERNAME,
+            Config.PASSWORD
+        )
 
 
-    # Database Validation
+        dashboard.click_employee_management()
 
-    assert employee_exists(employee_id)
+        add_employee.click_add_employee()
 
 
-    employee = get_employee(employee_id)
+        add_employee.add_employee(
+            employee_id,
+            first_name,
+            last_name,
+            email,
+            department,
+            designation
+        )
+
+
+        # Database Validation
+
+        assert employee_exists(employee_id)
+
+
+        employee = get_employee(employee_id)
     
 
-    assert employee is not None
-    assert employee[1] == employee_id
-    assert employee[2] == first_name
-    assert employee[3] == last_name
-    assert employee[4] == email
-    assert employee[5] == department
-    assert employee[6] == designation
+        assert employee is not None
+        assert employee[1] == employee_id
+        assert employee[2] == first_name
+        assert employee[3] == last_name
+        assert employee[4] == email
+        assert employee[5] == department
+        assert employee[6] == designation
+
+    finally:
+
+        if employee_exists(employee_id):
+            delete_employee(employee_id)
 
 
-    page.wait_for_timeout(3000)
+    # page.wait_for_timeout(3000)

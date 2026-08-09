@@ -5,35 +5,60 @@ import os
 
 
 
+def pytest_addoption(parser):
+
+    parser.addoption(
+        "--browser",
+        action="store",
+        default=None,
+        help="Browser to run tests on: chromium, firefox, webkit"
+    )
+
+    parser.addoption(
+        "--headless",
+        action="store_true",
+        default=False,
+        help="Run tests in headless mode"
+    )
+
+
+
 
 @pytest.fixture
-def browser():
+def browser(request):
+
+    browser_name = request.config.getoption("--browser")
+
+    if browser_name is None:
+        browser_name = Config.BROWSER
+
+    headless = request.config.getoption("--headless")
 
 
     with sync_playwright() as p:
 
-        if Config.BROWSER.lower() == "chromium":
+        if browser_name.lower() == "chromium":
 
             browser = p.chromium.launch(
-                headless=Config.HEADLESS
+                headless=headless
             )
 
-        elif Config.BROWSER.lower() == "firefox":
+        elif browser_name.lower() == "firefox":
 
             browser = p.firefox.launch(
-                headless=Config.HEADLESS
+                headless=headless
             )
 
-        elif Config.BROWSER.lower() == "webkit":
+        elif browser_name.lower() == "webkit":
 
             browser = p.webkit.launch(
-                headless=Config.HEADLESS
+                headless=headless
             )
 
 
         else:
             raise ValueError(
-                f"Unsupported browser: {Config.BROWSER}"
+                f"Unsupported browser: {browser_name}"
             )
 
         yield browser
@@ -42,12 +67,23 @@ def browser():
 
 
 
+@pytest.fixture
+def context(browser):
+
+
+    context = browser.new_context()
+
+    yield context
+
+    context.close()
+
+    
 
 @pytest.fixture
-def page(browser,request):
+def page(context, request):
 
 
-    page = browser.new_page()
+    page = context.new_page()
 
 
     page.set_default_timeout(
