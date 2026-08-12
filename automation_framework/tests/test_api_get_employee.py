@@ -5,7 +5,7 @@ from api.endpoints import Endpoints
 def test_get_employee():
 
     response = APIClient.get(
-        Endpoints.GET_EMPLOYEE("EMP002")
+        Endpoints.GET_EMPLOYEE("EMP010")
     )
 
 
@@ -13,11 +13,12 @@ def test_get_employee():
 
     employee = response.json()
 
-    assert employee["employee_id"] == "EMP002"
-    assert employee["first_name"] == "Manu"
-    assert employee["last_name"] == "K M"
+    assert employee["employee_id"] == "EMP010"
+    assert employee["first_name"] == "Rohit"
+    assert employee["last_name"] == "Sharma"
+    assert employee["email"] == "rohit@hitman.com"
     assert employee["department"] == "IT"
-    assert employee["designation"] == "Senior Engineer"
+    assert employee["designation"] == "Software Engineer"
 
 
 

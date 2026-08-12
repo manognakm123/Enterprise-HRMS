@@ -1323,3 +1323,57 @@
 2026-08-09 20:34:24,933 | INFO | Searching Employee EMP002
 2026-08-09 20:34:26,073 | INFO | Connected to SQLite database
 2026-08-09 20:34:26,075 | INFO | Retrieved employee EMP002 from database.
+2026-08-09 20:44:01,797 | INFO | Opened HRMS Login page
+2026-08-09 20:44:01,853 | INFO | Entered Username
+2026-08-09 20:44:01,878 | INFO | Entered Password
+2026-08-09 20:44:02,031 | INFO | Clicked Login Button
+2026-08-09 20:44:02,031 | INFO | Login successful
+2026-08-09 20:44:02,167 | INFO | Clicked Employee Management
+2026-08-09 20:44:02,291 | INFO | Searching Employee EMP001
+2026-08-09 20:58:43,274 | INFO | Opened HRMS Login page
+2026-08-09 20:58:43,329 | INFO | Entered Username
+2026-08-09 20:58:43,358 | INFO | Entered Password
+2026-08-09 20:58:43,692 | INFO | Clicked Login Button
+2026-08-09 20:58:43,692 | INFO | Login successful
+2026-08-09 20:58:43,948 | INFO | Clicked Employee Management
+2026-08-09 20:58:44,177 | INFO | Searching Employee EMP003
+2026-08-09 20:58:45,044 | INFO | Connected to SQLite database
+2026-08-09 20:58:45,046 | INFO | Employee EMP003 not found in database.
+2026-08-10 11:25:31,600 | INFO | Opened HRMS Login page
+2026-08-10 11:25:31,639 | INFO | Entered Username
+2026-08-10 11:25:31,655 | INFO | Entered Password
+2026-08-10 11:25:31,949 | INFO | Clicked Login Button
+2026-08-10 11:25:31,949 | INFO | Login successful
+2026-08-10 11:25:32,060 | INFO | Clicked Employee Management
+2026-08-10 11:25:32,210 | INFO | Searching Employee EMP002
+2026-08-10 11:25:32,960 | INFO | Connected to SQLite database
+2026-08-10 11:25:32,961 | INFO | Employee EMP002 not found in database.
+2026-08-12 09:58:54,769 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees/EMP010
+2026-08-12 09:58:54,921 | INFO | Response Time: 151.2 ms
+2026-08-12 09:58:54,921 | INFO | Status Code: 200
+2026-08-12 09:58:54,924 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees/EMP999
+2026-08-12 09:58:54,936 | INFO | Response Time: 10.92 ms
+2026-08-12 09:58:54,936 | INFO | Status Code: 404
+2026-08-12 12:04:30,485 | INFO | Sending GET request to /api/employees
+2026-08-12 12:05:04,632 | INFO | Sending GET request to /api/employees
+2026-08-12 12:12:48,188 | INFO | Sending GET request to http://127.0.0.1:5000/api/employees
+2026-08-12 12:12:48,462 | INFO | Response Time: 269.33 ms
+2026-08-12 12:12:48,462 | INFO | Status Code: 200
+2026-08-12 12:14:02,830 | INFO | Sending POST request to /api/employees
+2026-08-12 14:23:36,774 | INFO | Sending POST request to http://127.0.0.1:5000/api/employees
+2026-08-12 14:23:36,816 | INFO | Response Time: 41.17 ms
+2026-08-12 14:23:36,816 | INFO | Status Code: 201
+2026-08-12 14:23:36,824 | INFO | Connected to SQLite database
+2026-08-12 14:23:36,824 | INFO | Employee EMP100 found in database.
+2026-08-12 14:25:06,207 | INFO | Sending PUT request to http://127.0.0.1:5000http://127.0.0.1:5000/api/employees/EMP100
+2026-08-12 14:25:26,977 | INFO | Sending PUT request to http://127.0.0.1:5000http://127.0.0.1:5000/api/employees/EMP100
+2026-08-12 14:46:53,730 | INFO | Sending PUT request to http://127.0.0.1:5000/api/employees/EMP100
+2026-08-12 14:46:53,746 | INFO | Response Time: 14.91 ms
+2026-08-12 14:46:53,746 | INFO | Status Code: 200
+2026-08-12 14:46:53,754 | INFO | Connected to SQLite database
+2026-08-12 14:46:53,755 | INFO | Retrieved employee EMP100 from database.
+2026-08-12 14:48:03,861 | INFO | Sending DELETE request to http://127.0.0.1:5000/api/employees/EMP020
+2026-08-12 14:48:03,866 | INFO | Response Time: 5.01 ms
+2026-08-12 14:48:03,866 | INFO | Status Code: 200
+2026-08-12 14:48:03,867 | INFO | Connected to SQLite database
+2026-08-12 14:48:03,867 | INFO | Employee EMP020 not found in database.
