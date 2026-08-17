@@ -26,7 +26,11 @@ class EmployeePage:
     def verify_employee_presence(self, employee_id):
 
         expect(
-            self.page.locator(f"text={employee_id}")
+            self.page.get_by_role(
+                "cell",
+                name=employee_id,
+                exact=True
+            )
         ).to_be_visible()
 
         

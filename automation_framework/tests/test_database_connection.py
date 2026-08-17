@@ -1,8 +1,8 @@
-from utilities.database_helper import connect_database
+from utilities.database_helper import get_connection
 
 
 def test_database_connection():
-    connection = connect_database()
+    connection = get_connection()
 
 
     assert connection is not None

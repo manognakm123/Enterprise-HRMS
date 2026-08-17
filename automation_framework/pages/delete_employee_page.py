@@ -7,7 +7,7 @@ class DeleteEmployeePage:
     def click_delete(self, employee_id):
         
         # Accept the briwser confirmation dialog
-        self.page.on(
+        self.page.once(
             "dialog",
             lambda dialog: dialog.accept()
         )

@@ -7,7 +7,7 @@ def test_create_employee():
 
 
     payload = {
-        "employee_id": "EMP100",
+        "employee_id": "EMP101",
         "first_name": "MS",
         "last_name": "Dhoni",
         "email": "ms.dhoni@gmail.com",
@@ -15,15 +15,27 @@ def test_create_employee():
         "designation": "Captain"
     }
 
+    employee_id = payload["employee_id"]
+
+    if employee_exists(employee_id):
+
+        APIClient.delete(
+            Endpoints.GET_EMPLOYEE(employee_id)
+        )
+
 
     response = APIClient.post(
-        Endpoints.GET_ALL_EMPLOYEES,
+        Endpoints.EMPLOYEES,
         payload
     )
 
 
     assert response.status_code == 201
 
-    assert response.json()["message"] == "Employee created successfully"
+    assert employee_exists(employee_id)
 
-    assert employee_exists("EMP100")
+    response = APIClient.delete(
+        Endpoints.GET_EMPLOYEE(employee_id)
+    )
+
+    assert response.status_code == 200

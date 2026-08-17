@@ -22,7 +22,7 @@ def test_add_employee(page):
 
     # Test data
 
-    employee_id = "EMP002"
+    employee_id = "EMP020"
     first_name = "Manu"
     last_name = "K M"
     email = "manu@gmail.com"
@@ -69,12 +69,12 @@ def test_add_employee(page):
     
 
         assert employee is not None
-        assert employee[1] == employee_id
-        assert employee[2] == first_name
-        assert employee[3] == last_name
-        assert employee[4] == email
-        assert employee[5] == department
-        assert employee[6] == designation
+        assert employee[0] == employee_id
+        assert employee[1] == first_name
+        assert employee[2] == last_name
+        assert employee[3] == email
+        assert employee[4] == department
+        assert employee[5] == designation
 
     finally:
 

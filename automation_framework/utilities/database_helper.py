@@ -1,12 +1,13 @@
 import sqlite3
-# from pathlib import Path
 
 from utilities.logger import get_logger
+
+
 
 logger = get_logger()
 
 
-def connect_database():
+def get_connection():
     """
     Establishes a connection to the SQLite database.
     
@@ -22,95 +23,117 @@ def connect_database():
         raise
 
 
-    # project_root = Path(__file__).resolve().parents[2]
-    # database_path = project_root / "database" / "hrms.db"
-
-
-    # connection = sqlite3.connect(database_path)
-
-
-    # return connection
-
 
 
 def employee_exists(employee_id):
-    # """
-    
-    # Checks whether an employee exists in the database.
-    
-    
-    # Args:
-    #     employee_id (str): Employee ID to search.
-        
-        
-    # Returns:
-    #     bool: True if employee exists, otherwise False.
-    # """
 
-    with connect_database() as connection:
 
+    connection = get_connection()
+
+    try:
         cursor = connection.cursor()
 
         cursor.execute(
-            "SELECT * FROM employees WHERE employee_id = ?", 
+            "SELECT 1 FROM employees WHERE employee_id = ?",
             (employee_id,)
         )
 
-        employee = cursor.fetchone()
+        return cursor.fetchone() is not None
 
-        if employee:
-            logger.info(f"Employee {employee_id} found in database.")
-            return True
-
-        logger.info(f"Employee {employee_id} not found in database.")
-        return False
+    finally:
+        connection.close()
 
 
 def get_employee(employee_id):
-    # """
-    
-    # Retrieves an employee record from the database.
-    
-    # Args:
-    #     employee_id (str): Employee ID to search.
-        
-        
-    # Returns:
-    #     tuple | None: Employee record if found, otherwise None.
-    # """
 
-    with connect_database() as connection:
+
+    connection = get_connection()
+
+    try:
         cursor = connection.cursor()
 
         cursor.execute(
-            "SELECT * FROM employees WHERE employee_id = ?", 
+            """
+            SELECT employee_id,
+                    first_name,
+                    last_name,
+                    email,
+                    department,
+                    designation
+            FROM employees 
+            WHERE employee_id = ?
+            """,
             (employee_id,)
         )
 
-        employee = cursor.fetchone()
+        row = cursor.fetchone()
+
+        if row:
+            return row
+
+        return None
+
+    finally:
+        connection.close()
 
 
-        if employee:
-            logger.info(f"Retrieved employee {employee_id} from database.")
-        else:
-            logger.warning(f"Employee {employee_id} not found.")
+
+def create_employee_for_test(employee_id):
+
+    connection = get_connection()
+
+    try:
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO employees(
+                employee_id,
+                first_name,
+                last_name,
+                email,
+                department,
+                designation
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                employee_id,
+                "Test",
+                "Employee",
+                f"{employee_id.lower()}@test.com",
+                "Testing",
+                "QA Engineer"
+            )
+        )
+
+        connection.commit()
+
+        logger.info(
+            f"Test employee {employee_id} created successfully."
+        )
 
 
-        return employee
+    finally:
+        connection.close()
 
 
 
 def delete_employee(employee_id):
 
-    with connect_database() as connection:
 
+    connection = get_connection()
+
+    try:
         cursor = connection.cursor()
 
         cursor.execute(
-            "DELETE FROM employees WHERE employee_id = ?", 
+            "DELETE FROM employees WHERE employee_id = ?",
             (employee_id,)
         )
 
         connection.commit()
 
-        logger.info(f"Employee {employee_id} deleted from database.")
+    finally:
+        connection.close()

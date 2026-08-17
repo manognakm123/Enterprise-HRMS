@@ -7,7 +7,7 @@ from pages.delete_employee_page import DeleteEmployeePage
 
 
 from utilities.csv_reader import read_csv
-from utilities.database_helper import employee_exists
+from utilities.database_helper import employee_exists, create_employee_for_test
 
 
 test_data = read_csv(
@@ -25,6 +25,10 @@ def test_delete_employee(page, employee_id):
     delete = DeleteEmployeePage(page)
 
 
+    if not employee_exists(employee_id):
+        create_employee_for_test(employee_id)
+
+
     login.open_application()
     login.login("admin", "admin123")
 
@@ -32,6 +36,9 @@ def test_delete_employee(page, employee_id):
 
 
     employee.search_employee(employee_id)
+
+
+    employee.verify_employee_presence(employee_id)
 
     delete.click_delete(employee_id)
 

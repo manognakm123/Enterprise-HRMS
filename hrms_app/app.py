@@ -18,30 +18,37 @@ def login():
 
         connection = sqlite3.connect("../database/hrms.db")
 
-        cursor = connection.cursor()
+        try:
 
-        cursor.execute(
-            """
-            SELECT * FROM users
-            WHERE username = ?
-            AND password = ?
-            """,
-            (username, password)
-        )
+            cursor = connection.cursor()
 
-        user = cursor.fetchone()
-
-        connection.close()
-
-        if user:
-            return redirect("/dashboard")
-        else:
-            return render_template(
-                "login.html",
-                error="Invalid username or password."
+            cursor.execute(
+                """
+                SELECT * FROM users
+                WHERE username = ?
+                AND password = ?
+                """,
+                (username, password)
             )
 
+            user = cursor.fetchone()
+
+            if user:
+                return redirect("/dashboard")
+            else:
+                return render_template(
+                "login.html",
+                error="Invalid username or password."
+                )
+
+        finally:
+            connection.close()
+
+
     return render_template("login.html")
+
+
+
 
 @app.route("/dashboard")
 def dashboard():
@@ -55,40 +62,44 @@ def employees():
 
     connection = sqlite3.connect("../database/hrms.db")
 
-    cursor = connection.cursor()
+    try:
 
-    if search:
-        cursor.execute(
-            """
-            SELECT employee_id, 
-                   first_name, 
-                   last_name, 
-                   email, 
-                   department, 
-                   designation
-            FROM employees
-            WHERE employee_id LIKE ? 
-            """,
-            ("%" + search + "%", )
-        )
+        cursor = connection.cursor()
 
-    else:
+        if search:
+            cursor.execute(
+                """
+                SELECT employee_id, 
+                       first_name, 
+                        last_name, 
+                        email, 
+                        department, 
+                        designation
+                FROM employees
+                WHERE employee_id LIKE ? 
+                """,
+                ("%" + search + "%", )
+            )
 
-        cursor.execute(
-            """
-            SELECT employee_id, 
-                   first_name, 
-                   last_name, 
-                   email, 
-                   department, 
-                   designation
-            FROM employees
-            """
-        )
+        else:
 
-    employees = cursor.fetchall()
+            cursor.execute(
+                """
+                SELECT employee_id, 
+                       first_name, 
+                       last_name, 
+                       email, 
+                       department, 
+                       designation
+                FROM employees
+                """
+            )
 
-    connection.close()
+        employees = cursor.fetchall()
+
+    finally:
+        connection.close()
+
 
     return render_template(
         "employees.html", 
@@ -97,24 +108,32 @@ def employees():
     )
 
 
+
+
 @app.route("/api/employees", methods=["GET"])
 def api_get_employee():
     connection = sqlite3.connect("../database/hrms.db")
-    cursor = connection.cursor()
 
-    cursor.execute("""
-        SELECT employee_id,
-                first_name,
-                last_name,
-                email,
-                department,
-                designation
-        FROM employees
-    """)
+    try:
 
-    rows = cursor.fetchall()
+        cursor = connection.cursor()
 
-    connection.close()
+        cursor.execute(
+            """
+            SELECT employee_id,
+                    first_name,
+                    last_name,
+                    email,
+                    department,
+                    designation
+            FROM employees
+            """
+        )
+
+        rows = cursor.fetchall()
+
+    finally:
+        connection.close()
 
     employees = []
 
@@ -137,22 +156,30 @@ def api_get_employee():
 def api_get_employee_by_ID(employee_id):
 
     connection = sqlite3.connect("../database/hrms.db")
-    cursor = connection.cursor()
 
-    cursor.execute("""
-        SELECT employee_id,
-                first_name,
-                last_name,
-                email,
-                department,
-                designation
-        FROM employees
-        WHERE employee_id=?
-    """, (employee_id,))
+    try:
 
-    employee = cursor.fetchone()
+        cursor = connection.cursor()
 
-    connection.close()
+        cursor.execute(
+            """
+            SELECT employee_id,
+                    first_name,
+                    last_name,
+                    email,
+                    department,
+                    designation
+            FROM employees
+            WHERE employee_id=?
+            """, 
+            (employee_id,)
+        )
+
+        employee = cursor.fetchone()
+
+    finally:
+        connection.close()
+
 
     if employee is None:
         return jsonify({"error": "Employee not found"}), 404
@@ -176,35 +203,43 @@ def api_add_employee():
 
 
     connection = sqlite3.connect("../database/hrms.db")
-    cursor = connection.cursor()
 
-    cursor.execute("""
-        INSERT INTO employees 
-        (
-            employee_id, 
-            first_name, 
-            last_name, 
-            email, 
-            department, 
-            designation
+    try:
+
+        cursor = connection.cursor()
+
+        cursor.execute("""
+            INSERT INTO employees 
+            (
+                employee_id, 
+                first_name, 
+                last_name, 
+                email, 
+                department, 
+                designation
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """, 
+            (
+                data["employee_id"],
+                data["first_name"],
+                data["last_name"],
+                data["email"],
+                data["department"],
+                data["designation"]
+            )       
         )
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, 
-    (
-        data["employee_id"],
-        data["first_name"],
-        data["last_name"],
-        data["email"],
-        data["department"],
-        data["designation"]
-    ))
 
-    connection.commit()
-    connection.close()
+        connection.commit()
+        # connection.close()
 
-    return jsonify({
-        "message": "Employee created successfully"
-    }), 201
+        return jsonify({
+            "message": "Employee created successfully",
+            "employee_id": data["employee_id"]
+        }), 201
+
+    finally:
+        connection.close()
 
 
 
@@ -222,26 +257,37 @@ def add_employee():
 
         connection = sqlite3.connect("../database/hrms.db")
 
-        cursor = connection.cursor()
+        try:
 
-        cursor.execute(
-            """
-            INSERT INTO employees (employee_id, first_name, last_name, email, department, designation)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """,
-            (
-                employee_id,
-                first_name,
-                last_name,
-                email,
-                department,
-                designation
+            cursor = connection.cursor()
+
+            cursor.execute(
+                """
+                INSERT INTO employees 
+                (   
+                    employee_id, 
+                    first_name, 
+                    last_name, 
+                    email, 
+                    department, 
+                    designation
+                )
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    employee_id,
+                    first_name,
+                    last_name,
+                    email,
+                    department,
+                    designation
+                )
             )
-        )
 
-        connection.commit()
+            connection.commit()
 
-        connection.close()
+        finally:
+            connection.close()
 
         return redirect("/employees")
 
@@ -264,28 +310,36 @@ def api_update_employee(employee_id):
     data = request.get_json()
 
     connection = sqlite3.connect("../database/hrms.db")
-    cursor = connection.cursor()
 
-    cursor.execute("""
-        UPDATE employees
-        SET 
-            first_name = ?, 
-            last_name = ?, 
-            email = ?, 
-            department = ?, 
-            designation = ?
-        WHERE employee_id = ?
-    """, (
-        data["first_name"],
-        data["last_name"],
-        data["email"],
-        data["department"],
-        data["designation"],
-        employee_id
-    ))
+    try:
 
-    connection.commit()
-    connection.close()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            UPDATE employees
+            SET 
+                first_name = ?, 
+                last_name = ?, 
+                email = ?, 
+                department = ?, 
+                designation = ?
+            WHERE employee_id = ?
+            """, 
+            (
+                data["first_name"],
+                data["last_name"],
+                data["email"],
+                data["department"],
+                data["designation"],
+                employee_id
+            )
+        )
+
+        connection.commit()
+
+    finally:
+        connection.close()
 
     return jsonify({
         "message": "Employee updated successfully"
@@ -309,52 +363,66 @@ def edit_employee(employee_id):
 
 
         connection = sqlite3.connect("../database/hrms.db")
-        cursor = connection.cursor()
 
-        
-        cursor.execute("""
-            UPDATE employees
-            SET 
-                first_name = ?, 
-                last_name = ?, 
-                email = ?, 
-                department = ?, 
-                designation = ?
-            WHERE employee_id = ?
-        """, (
-            first_name, 
-            last_name, 
-            email, 
-            department, 
-            designation, 
-            employee_id
-        ))
+        try:
 
-        connection.commit()
-        connection.close()
+            cursor = connection.cursor()
+
+            cursor.execute(
+                """
+                UPDATE employees
+                SET 
+                    first_name = ?, 
+                    last_name = ?, 
+                    email = ?, 
+                    department = ?, 
+                    designation = ?
+                WHERE employee_id = ?
+                """, 
+                (
+                    first_name, 
+                    last_name, 
+                    email, 
+                    department, 
+                    designation, 
+                    employee_id
+                )
+            )
+
+            connection.commit()
+
+        finally:
+            connection.close()
 
         return redirect("/employees")
     
 
     # GET request
     connection = sqlite3.connect("../database/hrms.db")
-    cursor = connection.cursor()
+
+    try:
+
+        cursor = connection.cursor()
 
     
-    cursor.execute("""
-        SELECT employee_id, 
-               first_name, 
-               last_name, 
-               email, 
-               department, 
-               designation
-        FROM employees
-        WHERE employee_id=?
-        """, (employee_id,))
+        cursor.execute(
+            """
+            SELECT employee_id, 
+                   first_name, 
+                   last_name, 
+                   email, 
+                   department, 
+                   designation
+            FROM employees
+            WHERE employee_id=?
+            """, 
+            (employee_id,)
+        )
 
-    employee = cursor.fetchone()
+        employee = cursor.fetchone()
 
-    connection.close()
+    finally:
+        connection.close()
 
     return render_template(
         "edit_employee.html", 
@@ -367,18 +435,23 @@ def delete_employee(employee_id):
 
 
     connection = sqlite3.connect("../database/hrms.db")
-    cursor = connection.cursor()
 
-    cursor.execute(
-        """
-        DELETE FROM employees
-        WHERE employee_id = ?
-        """,
-        (employee_id,)
-    )
+    try:
 
-    connection.commit()
-    connection.close()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            DELETE FROM employees
+            WHERE employee_id = ?
+            """,
+            (employee_id,)
+        )
+
+        connection.commit()
+
+    finally:
+        connection.close()
 
     return redirect("/employees")
 
@@ -389,18 +462,23 @@ def api_delete_employee(employee_id):
 
 
     connection = sqlite3.connect("../database/hrms.db")
-    cursor = connection.cursor()
 
-    cursor.execute(
-        """
-        DELETE FROM employees
-        WHERE employee_id = ?
-        """,
-        (employee_id,)
-    )
+    try:
 
-    connection.commit()
-    connection.close()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            DELETE FROM employees
+            WHERE employee_id = ?
+            """,
+            (employee_id,)
+        )
+
+        connection.commit()
+
+    finally:
+        connection.close()
 
     return jsonify({
         "message": "Employee deleted successfully"

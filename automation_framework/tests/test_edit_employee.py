@@ -7,7 +7,7 @@ from pages.edit_employee_page import EditEmployeePage
 
 
 from utilities.csv_reader import read_csv
-from utilities.database_helper import get_employee
+from utilities.database_helper import employee_exists, get_employee, create_employee_for_test
 
 
 test_data = read_csv(
@@ -38,12 +38,29 @@ def test_edit_employee(
     edit = EditEmployeePage(page)
 
 
+    if not employee_exists(employee_id):
+        create_employee_for_test(employee_id)
+
+
     login.open_application()
     login.login("admin", "admin123")
 
     dashboard.click_employee_management()
 
     employee.search_employee(employee_id)
+
+
+    # print("PAGE URL:", page.url)
+    # print("PAGE CONTENT:")
+    # print(page.locator("table").inner_text())
+
+    # print("EDIT LINKS:")
+    # print(page.locator("a").all_inner_texts())
+
+    # print("EDIT HREFS:")
+    # print(page.locator("a").evaluate_all(
+    #     "(links) => links.map(a => a.getAttribute('href'))"
+    # ))
 
 
     edit.click_edit(employee_id)
@@ -98,9 +115,9 @@ def test_edit_employee(
 
     assert db_employee is not None
 
-    assert db_employee[1] == employee_id
-    assert db_employee[2] == first_name
-    assert db_employee[3] == last_name
-    assert db_employee[4] == email
-    assert db_employee[5] == department
-    assert db_employee[6] == designation
+    assert db_employee[0] == employee_id
+    assert db_employee[1] == first_name
+    assert db_employee[2] == last_name
+    assert db_employee[3] == email
+    assert db_employee[4] == department
+    assert db_employee[5] == designation

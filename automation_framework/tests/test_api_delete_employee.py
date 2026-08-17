@@ -8,7 +8,7 @@ def test_delete_employee():
 
 
     response = APIClient.delete(
-        Endpoints.GET_EMPLOYEE("EMP020")
+        Endpoints.GET_EMPLOYEE("EMP101")
     )
 
 
@@ -16,4 +16,4 @@ def test_delete_employee():
 
     assert response.json()["message"] == "Employee deleted successfully"
 
-    assert not employee_exists("EMP020")
+    assert not employee_exists("EMP101")

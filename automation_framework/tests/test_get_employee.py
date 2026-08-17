@@ -3,7 +3,7 @@ from utilities.database_helper import get_employee
 
 def test_get_employee():
 
-    employee = get_employee("EMP002")
+    employee = get_employee("EMP010")
 
     print(employee)
 
