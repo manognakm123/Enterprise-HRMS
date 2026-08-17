@@ -1,8 +1,14 @@
 from flask import Flask, render_template, request, redirect, jsonify
 import sqlite3
+from pathlib import Path
 
 
 app = Flask(__name__)
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "database" / "hrms.db"
+
 
 @app.route("/")
 def home():
@@ -16,7 +22,7 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        connection = sqlite3.connect("../database/hrms.db")
+        connection = sqlite3.connect(DB_PATH)
 
         try:
 
@@ -60,7 +66,7 @@ def employees():
 
     search = request.args.get("search", "")
 
-    connection = sqlite3.connect("../database/hrms.db")
+    connection = sqlite3.connect(DB_PATH)
 
     try:
 
@@ -112,7 +118,8 @@ def employees():
 
 @app.route("/api/employees", methods=["GET"])
 def api_get_employee():
-    connection = sqlite3.connect("../database/hrms.db")
+
+    connection = sqlite3.connect(DB_PATH)
 
     try:
 
@@ -155,7 +162,7 @@ def api_get_employee():
 @app.route("/api/employees/<employee_id>", methods=["GET"])
 def api_get_employee_by_ID(employee_id):
 
-    connection = sqlite3.connect("../database/hrms.db")
+    connection = sqlite3.connect(DB_PATH)
 
     try:
 
@@ -202,7 +209,7 @@ def api_add_employee():
     data = request.get_json()
 
 
-    connection = sqlite3.connect("../database/hrms.db")
+    connection = sqlite3.connect(DB_PATH)
 
     try:
 
@@ -255,7 +262,7 @@ def add_employee():
         department = request.form.get("department")
         designation = request.form.get("designation")
 
-        connection = sqlite3.connect("../database/hrms.db")
+        connection = sqlite3.connect(DB_PATH)
 
         try:
 
@@ -309,7 +316,7 @@ def api_update_employee(employee_id):
 
     data = request.get_json()
 
-    connection = sqlite3.connect("../database/hrms.db")
+    connection = sqlite3.connect(DB_PATH)
 
     try:
 
@@ -362,7 +369,7 @@ def edit_employee(employee_id):
         designation = request.form.get("designation")
 
 
-        connection = sqlite3.connect("../database/hrms.db")
+        connection = sqlite3.connect(DB_PATH)
 
         try:
 
@@ -398,7 +405,7 @@ def edit_employee(employee_id):
     
 
     # GET request
-    connection = sqlite3.connect("../database/hrms.db")
+    connection = sqlite3.connect(DB_PATH)
 
     try:
 
@@ -434,7 +441,7 @@ def edit_employee(employee_id):
 def delete_employee(employee_id):
 
 
-    connection = sqlite3.connect("../database/hrms.db")
+    connection = sqlite3.connect(DB_PATH)
 
     try:
 
@@ -461,7 +468,7 @@ def delete_employee(employee_id):
 def api_delete_employee(employee_id):
 
 
-    connection = sqlite3.connect("../database/hrms.db")
+    connection = sqlite3.connect(DB_PATH)
 
     try:
 

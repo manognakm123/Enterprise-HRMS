@@ -32,9 +32,35 @@ jobs:
           python database/create_database.py
 
       - name: Start Flask application
+        shell: powershell
         run: |
           Start-Process python -ArgumentList "hrms_app/app.py"
-          Start-Sleep -Seconds 5
+
+          $maxAttempts = 30
+
+          for ($i = 1; $i -le $maxAttempts; $i++) {
+            try {
+                $response = Invoke-WebRequest `
+                      -Uri "http://127.0.0.1:5000/" `
+                      -UseBasicParsing `
+                      -TimeoutSec 2
+                
+                if ($response.StatusCode -eq 200) {
+                    Write-Host "Flask application is running."
+                    break
+                }
+              }
+              catch {
+                  Write-Host "Waiting for Flask application..."
+              }
+              
+              Start-Sleep -Seconds 1
+
+              if ($i -eq $maxAttempts) {
+                  Write-Error "Flask application failed to start."
+                  exit 1
+              }
+          }
 
       - name: Run tests
         run: |

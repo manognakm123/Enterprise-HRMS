@@ -4,18 +4,14 @@ from pathlib import Path
 from utilities.logger import get_logger
 
 
-
 logger = get_logger()
 
-BASE_DIR = Path(__file__).resolve().parents[2]
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DB_PATH = BASE_DIR / "database" / "hrms.db"
 
 
 def get_connection():
-    """
-    Establishes a connection to the SQLite database.
-    
-    """
+
 
     try:
         connection = sqlite3.connect(DB_PATH)

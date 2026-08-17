@@ -1,6 +1,12 @@
 import sqlite3
+from pathlib import Path
 
-connection = sqlite3.connect("database/hrms.db")
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "database" / "hrms.db"
+
+
+connection = sqlite3.connect(DB_PATH)
 
 cursor = connection.cursor()
 
@@ -38,6 +44,28 @@ cursor.execute("""
 INSERT OR IGNORE INTO users (username, password)
 VALUES (?, ?)
 """, ("admin", "admin123"))
+
+
+
+cursor.execute("""
+INSERT OR IGNORE INTO employees (
+    employee_id,
+    first_name,
+    last_name,
+    email,
+    department,
+    designation
+)
+VALUES (?, ?, ?, ?, ?, ?)
+""", (
+    "EMP010",
+    "Rohit",
+    "Sharma",
+    "rohit@hitman.com",
+    "IT",
+    "Software Engineer"
+))
+
 
 connection.commit()
 connection.close()
