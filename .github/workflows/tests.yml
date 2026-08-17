@@ -27,6 +27,15 @@ jobs:
           pip install -r requirements.txt
           playwright install
 
+      - name: Initialize database
+        run: |
+          python database/create_database.py
+
+      - name: Start Flask application
+        run: |
+          Start-Process python -ArgumentList "hrms_app\app.py" -NoNewWindow
+          Start-Sleep -Seconds 5
+
       - name: Run tests
         run: |
           pytest automation_framework/tests -v
