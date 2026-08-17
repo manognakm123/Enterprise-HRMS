@@ -1,9 +1,9 @@
 import sqlite3
-from pathlib import Path
+import os
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "database" / "hrms.db"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(BASE_DIR, "database", "hrms.db")
 
 
 connection = sqlite3.connect(DB_PATH)

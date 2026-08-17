@@ -1,13 +1,13 @@
 import sqlite3
-from pathlib import Path
+import os
 
 from utilities.logger import get_logger
 
 
 logger = get_logger()
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DB_PATH = BASE_DIR / "database" / "hrms.db"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DB_PATH = os.path.join(BASE_DIR, "database", "hrms.db")
 
 
 def get_connection():

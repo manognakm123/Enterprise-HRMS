@@ -1,13 +1,13 @@
 from flask import Flask, render_template, request, redirect, jsonify
 import sqlite3
-from pathlib import Path
+import os
 
 
 app = Flask(__name__)
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "database" / "hrms.db"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(BASE_DIR, "database", "hrms.db")
 
 
 @app.route("/")
@@ -357,8 +357,6 @@ def api_update_employee(employee_id):
 @app.route("/edit_employee/<employee_id>", methods=["GET", "POST"])
 def edit_employee(employee_id):
 
-    # connection = sqlite3.connect("../database/hrms.db")
-    # cursor = connection.cursor()
 
     if request.method == "POST":
 
@@ -499,4 +497,8 @@ def logout():
     return redirect("/login")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host="127.0.0.1",
+        port=5000,
+        debug=False
+    )
