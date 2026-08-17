@@ -1,10 +1,14 @@
 import sqlite3
+from pathlib import Path
 
 from utilities.logger import get_logger
 
 
 
 logger = get_logger()
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+DB_PATH = BASE_DIR / "database" / "hrms.db"
 
 
 def get_connection():
@@ -14,8 +18,8 @@ def get_connection():
     """
 
     try:
-        connection = sqlite3.connect("database/hrms.db")
-        logger.info("Connected to SQLite database")
+        connection = sqlite3.connect(DB_PATH)
+        logger.info(f"Connected to SQLite database: {DB_PATH}")
         return connection
 
     except sqlite3.Error as e:
