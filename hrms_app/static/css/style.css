@@ -11,7 +11,8 @@ body {
 .login-container {
     background: white;
     padding: 30px;
-    width: 350px;
+    width: 90%;
+    max-width: 1200px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
 }
@@ -53,3 +54,37 @@ button:hover {
     background: #005ea2;
 }
 
+
+
+
+/* Employee Management Table */
+
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.employee-table th,
+.employee-table td {
+    border: 1px solid #ddd;
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.employee-table th {
+    background-color: #f4f6f9;
+    font-weight: bold;
+}
+
+.employee-table td {
+    white-space: nowrap;
+}
+
+/* Edit and Delete links */
+
+.employee-table td a {
+    margin: 0 5px;
+    text-decoration: none;
+}

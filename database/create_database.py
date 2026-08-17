@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect("hrms.db")
+connection = sqlite3.connect("database/hrms.db")
 
 cursor = connection.cursor()
 

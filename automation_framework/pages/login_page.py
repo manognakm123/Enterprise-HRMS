@@ -43,4 +43,8 @@ class LoginPage:
         self.enter_password(password)
         self.click_login()
 
-        logger.info("Login successful")
+        if "/dashboard" in self.page.url:
+            logger.info("Login successful")
+
+        else:
+            logger.warning("Login failed - Invalid username or password")
