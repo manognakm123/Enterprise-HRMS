@@ -28,40 +28,85 @@ jobs:
           playwright install
 
       - name: Create database
+        shell: powershell
         run: |
           python database/create_database.py
+
+      - name: Verify database
+        shell: powershell
+        run: |
+          python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\").fetchall()); c.close()"
 
       - name: Start Flask application
         shell: powershell
         run: |
-          Start-Process python -ArgumentList "hrms_app/app.py"
+          # Start Flask in background and capture the process
+          $process = Start-Process python `
+              -ArgumentList "hrms_app/app.py" `
+              -NoNewWindow `
+              -PassThru `
+              -RedirectStandardOutput "flask.log" `
+              -RedirectStandardError "flask_error.log"
+    
+          $maxAttempts = 60  # Increase from 30 to 60
+          $ready = $false
 
-          $maxAttempts = 30
+          for ($i = 0; $i -lt $maxAttempts; $i++) {
+              
+              Start-Sleep -Milliseconds 500
+              
 
-          for ($i = 1; $i -le $maxAttempts; $i++) {
-            try {
-                $response = Invoke-WebRequest `
+              try {
+                  $null = Invoke-WebRequest `
                       -Uri "http://127.0.0.1:5000/" `
                       -UseBasicParsing `
-                      -TimeoutSec 2
-                
-                if ($response.StatusCode -eq 200) {
-                    Write-Host "Flask application is running."
-                    break
-                }
-              }
-              catch {
-                  Write-Host "Waiting for Flask application..."
-              }
-              
-              Start-Sleep -Seconds 1
+                      -TimeoutSec 2 `
+                      -ErrorAction Stop
 
-              if ($i -eq $maxAttempts) {
-                  Write-Error "Flask application failed to start."
+                  $ready = $true
+                  Write-Host "Flask application is ready."
+                  break
+              }
+            
+              catch {
+                  Write-Host "Waiting for Flask... Attempt $($i + 1)/$maxAttempts"
+              }
+        
+              # Check if process crashed
+              if ($process.HasExited) {
+                  Write-Host "Flask application stopped unexpectedly."
+
+                  if (Test-Path "flask.log") {
+                      Write-Host "===== Flask stdout ====="
+                      Get-Content "flask.log"
+                  }
+
+                  if (Test-Path "flask_error.log") {
+                      Write-Host "===== Flask stderr ====="
+                      Get-Content "flask_error.log"
+                  }
+
                   exit 1
               }
           }
 
+          if (-not $ready) {
+              Write-Error "Flask application failed to start."
+
+              if (Test-Path "flask.log") {
+                  Write-Host "===== Flask stdout ====="
+                  Get-Content "flask.log"
+              }
+
+              if (Test-Path "flask_error.log") {
+                  Write-Host "===== Flask stderr ====="
+                  Get-Content "flask_error.log"
+              }
+
+              exit 1
+          }
+
       - name: Run tests
+        shell: powershell
         run: |
           pytest automation_framework/tests -v
