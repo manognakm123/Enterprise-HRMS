@@ -1,234 +1,4 @@
-# name: HRMS Automation Tests
-
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     branches:
-#       - main
-
-# jobs:
-#   test:
-#     runs-on: windows-latest
-
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v4
-
-#       - name: Set up Python
-#         uses: actions/setup-python@v5
-#         with:
-#           python-version: "3.13"
-
-#       - name: Install dependencies
-#         shell: powershell
-#         run: |
-#           python -m pip install --upgrade pip
-#           pip install -r requirements.txt
-#           playwright install
-
-#       - name: Create database
-#         shell: powershell
-#         run: |
-#           Write-Host "Creating HRMS database..."
-
-#           python database/create_database.py
-
-#           if (-not (Test-Path "database/hrms.db")) {
-#               Write-Error "Database was not created."
-#               exit 1
-#           }
-
-#           Write-Host "Database created successfully."
-
-#       - name: Verify database
-#         shell: powershell
-#         run: |
-#           Write-Host "===== DATABASE FILE ====="
-
-#           Get-Item "database/hrms.db" | Format-List FullName,Length,LastWriteTime
-
-#           Write-Host "===== DATABASE TABLES ====="
-
-#           python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\").fetchall()); c.close()"
-
-#           Write-Host "===== EMPLOYEE DATA ====="
-
-#           python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute('SELECT employee_id, first_name, last_name, email, department, designation FROM employees').fetchall()); c.close()"
-
-#       - name: Start Flask application
-#         shell: powershell
-#         run: |
-#           Write-Host "Starting Flask application..."
-
-#           $process = Start-Process python `
-#               -ArgumentList "-u hrms_app/app.py" `
-#               -NoNewWindow `
-#               -PassThru `
-#               -RedirectStandardOutput "flask.log" `
-#               -RedirectStandardError "flask_error.log"
-
-#           Write-Host "Flask process ID: $($process.Id)"
-
-#           $maxAttempts = 60
-#           $ready = $false
-
-#           for ($i = 1; $i -le $maxAttempts; $i++) {
-
-#               Start-Sleep -Seconds 1
-
-#               if ($process.HasExited) {
-
-#                   Write-Error "Flask process stopped unexpectedly."
-
-#                   Write-Host "===== FLASK OUTPUT ====="
-
-#                   if (Test-Path "flask.log") {
-#                       Get-Content "flask.log"
-#                   }
-
-#                   Write-Host "===== FLASK ERROR ====="
-
-#                   if (Test-Path "flask_error.log") {
-#                       Get-Content "flask_error.log"
-#                   }
-
-#                   exit 1
-#               }
-
-#               try {
-
-#                   $response = Invoke-WebRequest `
-#                       -Uri "http://127.0.0.1:5000/" `
-#                       -UseBasicParsing `
-#                       -TimeoutSec 3 `
-#                       -ErrorAction Stop
-
-#                   if ($response.StatusCode -eq 200) {
-
-#                       Write-Host "Flask application is ready."
-#                       Write-Host "HTTP Status Code: $($response.StatusCode)"
-
-#                       $ready = $true
-#                       break
-#                   }
-
-#               }
-#               catch {
-
-#                   Write-Host "Waiting for Flask... Attempt $i/$maxAttempts"
-#               }
-#           }
-
-#           if (-not $ready) {
-
-#               Write-Error "Flask application failed to start."
-
-#               Write-Host "===== FLASK OUTPUT ====="
-
-#               if (Test-Path "flask.log") {
-#                   Get-Content "flask.log"
-#               }
-
-#               Write-Host "===== FLASK ERROR ====="
-
-#               if (Test-Path "flask_error.log") {
-#                   Get-Content "flask_error.log"
-#               }
-
-#               exit 1
-#           }
-
-#       - name: Verify environment before tests
-#         shell: powershell
-#         run: |
-#           Write-Host "=========================================="
-#           Write-Host "CURRENT DIRECTORY"
-#           Write-Host "=========================================="
-
-#           Get-Location
-
-#           Write-Host "=========================================="
-#           Write-Host "DATABASE FILE"
-#           Write-Host "=========================================="
-
-#           if (Test-Path "database/hrms.db") {
-#               Write-Host "database/hrms.db EXISTS"
-#           }
-#           else {
-#               Write-Error "database/hrms.db DOES NOT EXIST"
-#               exit 1
-#           }
-
-#           Write-Host "=========================================="
-#           Write-Host "DATABASE TABLES"
-#           Write-Host "=========================================="
-
-#           python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\").fetchall()); c.close()"
-
-#           Write-Host "=========================================="
-#           Write-Host "EMPLOYEES"
-#           Write-Host "=========================================="
-
-#           python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute('SELECT employee_id, first_name, last_name, email, department, designation FROM employees').fetchall()); c.close()"
-
-#           Write-Host "=========================================="
-#           Write-Host "PYTHON PROCESSES"
-#           Write-Host "=========================================="
-
-#           Get-Process python -ErrorAction SilentlyContinue
-
-#           Write-Host "=========================================="
-#           Write-Host "FLASK LOG"
-#           Write-Host "=========================================="
-
-#           if (Test-Path "flask.log") {
-#               Get-Content flask.log
-#           }
-
-#           Write-Host "=========================================="
-#           Write-Host "FLASK ERROR LOG"
-#           Write-Host "=========================================="
-
-#           if (Test-Path "flask_error.log") {
-#               Get-Content flask_error.log
-#           }
-
-#           Write-Host "=========================================="
-#           Write-Host "FLASK CONNECTION TEST"
-#           Write-Host "=========================================="
-
-#           try {
-
-#               $response = Invoke-WebRequest `
-#                   -Uri "http://127.0.0.1:5000/" `
-#                   -UseBasicParsing `
-#                   -TimeoutSec 5 `
-#                   -ErrorAction Stop
-
-#               Write-Host "Flask Status Code: $($response.StatusCode)"
-#               Write-Host "Flask is reachable."
-
-#           }
-#           catch {
-
-#               Write-Error "Flask is NOT reachable."
-#               Write-Error $_
-#               exit 1
-#           }
-
-#       - name: Run tests
-#         shell: powershell
-#         run: |
-#           pytest automation_framework/tests -v
-
-
-
-
-
-
-name: HRMS Automation Tests
+name: Enterprise HRMS CI
 
 on:
   push:
@@ -243,30 +13,242 @@ jobs:
     runs-on: windows-latest
 
     steps:
+
+      # -----------------------------------------
+      # 1. Checkout repository
+      # -----------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # -----------------------------------------
+      # 2. Setup Python
+      # -----------------------------------------
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
 
+      # -----------------------------------------
+      # 3. Install dependencies
+      # -----------------------------------------
       - name: Install dependencies
+        shell: powershell
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           playwright install
 
-      - name: Initialize Database
+      # -----------------------------------------
+      # 4. Create database
+      # -----------------------------------------
+      - name: Create database
+        shell: powershell
         run: |
+          Write-Host "Creating HRMS database..."
+
           python database/create_database.py
 
-      - name: Start Flask Server
-        run: |
-          start python hrms_app/app.py
-          timeout /t 5 /nobreak
-        shell: cmd
+          if (-not (Test-Path "database/hrms.db")) {
+              Write-Error "Database file was not created."
+              exit 1
+          }
 
-      - name: Run tests
+          Write-Host "Database file created successfully."
+
+      # -----------------------------------------
+      # 5. Verify database
+      # -----------------------------------------
+      - name: Verify database
+        shell: powershell
         run: |
-          pytest automation_framework/tests -v
+          Write-Host "Verifying database..."
+
+          @"
+          import sqlite3
+
+          db_path = "database/hrms.db"
+
+          connection = sqlite3.connect(db_path)
+          cursor = connection.cursor()
+
+          tables = cursor.execute(
+              "SELECT name FROM sqlite_master WHERE type='table'"
+          ).fetchall()
+
+          employees = cursor.execute(
+              "SELECT employee_id, first_name, last_name FROM employees"
+          ).fetchall()
+
+          users = cursor.execute(
+              "SELECT username FROM users"
+          ).fetchall()
+
+          print("Tables:", tables)
+          print("Employees:", employees)
+          print("Users:", users)
+
+          required_tables = {"users", "employees"}
+          actual_tables = {table[0] for table in tables}
+
+          missing_tables = required_tables - actual_tables
+
+          if missing_tables:
+              raise RuntimeError(
+                  f"Missing required tables: {missing_tables}"
+              )
+
+          if not users:
+              raise RuntimeError("Users table is empty.")
+
+          if not employees:
+              raise RuntimeError("Employees table is empty.")
+
+          connection.close()
+
+          print("Database verification successful.")
+          "@ | Set-Content verify_database.py
+
+          python verify_database.py
+
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Database verification failed."
+              exit 1
+          }
+
+          Remove-Item verify_database.py -Force
+
+      # -----------------------------------------
+      # 6. Start Flask application
+      # -----------------------------------------
+      - name: Start Flask application
+        shell: powershell
+        run: |
+          Write-Host "Starting Flask application..."
+
+          $process = Start-Process `
+              -FilePath "python" `
+              -ArgumentList "hrms_app/app.py" `
+              -WorkingDirectory "$PWD" `
+              -PassThru `
+              -RedirectStandardOutput "$PWD\flask.log" `
+              -RedirectStandardError "$PWD\flask_error.log"
+
+          Write-Host "Flask process ID: $($process.Id)"
+
+          $maxAttempts = 60
+          $ready = $false
+
+          for ($i = 1; $i -le $maxAttempts; $i++) {
+
+              Start-Sleep -Seconds 1
+
+              if ($process.HasExited) {
+                  Write-Error "Flask process stopped unexpectedly."
+
+                  Write-Host "========== flask.log =========="
+
+                  if (Test-Path "flask.log") {
+                      Get-Content "flask.log"
+                  }
+
+                  Write-Host "========== flask_error.log =========="
+
+                  if (Test-Path "flask_error.log") {
+                      Get-Content "flask_error.log"
+                  }
+
+                  exit 1
+              }
+
+              try {
+
+                  $response = Invoke-WebRequest `
+                      -Uri "http://127.0.0.1:5000/" `
+                      -UseBasicParsing `
+                      -TimeoutSec 3 `
+                      -ErrorAction Stop
+
+                  if ($response.StatusCode -eq 200) {
+
+                      Write-Host "Flask application is READY."
+                      $ready = $true
+                      break
+                  }
+
+              }
+              catch {
+
+                  Write-Host "Waiting for Flask... Attempt $i/$maxAttempts"
+              }
+          }
+
+          if (-not $ready) {
+
+              Write-Error "Flask application failed to start."
+
+              Write-Host "========== flask.log =========="
+
+              if (Test-Path "flask.log") {
+                  Get-Content "flask.log"
+              }
+
+              Write-Host "========== flask_error.log =========="
+
+              if (Test-Path "flask_error.log") {
+                  Get-Content "flask_error.log"
+              }
+
+              exit 1
+          }
+
+      # -----------------------------------------
+      # 7. Verify Flask API
+      # -----------------------------------------
+      - name: Verify Flask API
+        shell: powershell
+        run: |
+          Write-Host "Checking Flask API..."
+
+          $response = Invoke-WebRequest `
+              -Uri "http://127.0.0.1:5000/api/employees" `
+              -UseBasicParsing `
+              -TimeoutSec 10
+
+          Write-Host "API Status Code: $($response.StatusCode)"
+          Write-Host "API Response:"
+          Write-Host $response.Content
+
+          if ($response.StatusCode -ne 200) {
+              Write-Error "Flask API health check failed."
+              exit 1
+          }
+
+          Write-Host "Flask API is healthy."
+
+      # -----------------------------------------
+      # 8. Run pytest
+      # -----------------------------------------
+      - name: Run tests
+        shell: powershell
+        run: |
+          pytest automation_framework/tests -v -s
+
+      # -----------------------------------------
+      # 9. Show Flask logs if tests fail
+      # -----------------------------------------
+      - name: Display Flask logs
+        if: always()
+        shell: powershell
+        run: |
+          Write-Host "========== Flask Output =========="
+
+          if (Test-Path "flask.log") {
+              Get-Content "flask.log"
+          }
+
+          Write-Host "========== Flask Errors =========="
+
+          if (Test-Path "flask_error.log") {
+              Get-Content "flask_error.log"
+          }
+

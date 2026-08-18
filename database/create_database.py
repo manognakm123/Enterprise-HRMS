@@ -71,5 +71,5 @@ connection.commit()
 connection.close()
 
 
-print("Database created successfully!")
+print(f"Database created successfully at: {DB_PATH}")
 

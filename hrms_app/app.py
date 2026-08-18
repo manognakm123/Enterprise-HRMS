@@ -75,14 +75,14 @@ def employees():
         if search:
             cursor.execute(
                 """
-                SELECT employee_id, 
-                       first_name, 
-                        last_name, 
-                        email, 
-                        department, 
+                SELECT employee_id,
+                       first_name,
+                        last_name,
+                        email,
+                        department,
                         designation
                 FROM employees
-                WHERE employee_id LIKE ? 
+                WHERE employee_id LIKE ?
                 """,
                 ("%" + search + "%", )
             )
@@ -91,11 +91,11 @@ def employees():
 
             cursor.execute(
                 """
-                SELECT employee_id, 
-                       first_name, 
-                       last_name, 
-                       email, 
-                       department, 
+                SELECT employee_id,
+                       first_name,
+                       last_name,
+                       email,
+                       department,
                        designation
                 FROM employees
                 """
@@ -108,7 +108,7 @@ def employees():
 
 
     return render_template(
-        "employees.html", 
+        "employees.html",
         employees=employees,
         search=search
     )
@@ -178,7 +178,7 @@ def api_get_employee_by_ID(employee_id):
                     designation
             FROM employees
             WHERE employee_id=?
-            """, 
+            """,
             (employee_id,)
         )
 
@@ -216,17 +216,17 @@ def api_add_employee():
         cursor = connection.cursor()
 
         cursor.execute("""
-            INSERT INTO employees 
+            INSERT INTO employees
             (
-                employee_id, 
-                first_name, 
-                last_name, 
-                email, 
-                department, 
+                employee_id,
+                first_name,
+                last_name,
+                email,
+                department,
                 designation
             )
             VALUES (?, ?, ?, ?, ?, ?)
-            """, 
+            """,
             (
                 data["employee_id"],
                 data["first_name"],
@@ -234,7 +234,7 @@ def api_add_employee():
                 data["email"],
                 data["department"],
                 data["designation"]
-            )       
+            )
         )
 
         connection.commit()
@@ -270,13 +270,13 @@ def add_employee():
 
             cursor.execute(
                 """
-                INSERT INTO employees 
-                (   
-                    employee_id, 
-                    first_name, 
-                    last_name, 
-                    email, 
-                    department, 
+                INSERT INTO employees
+                (
+                    employee_id,
+                    first_name,
+                    last_name,
+                    email,
+                    department,
                     designation
                 )
                 VALUES (?, ?, ?, ?, ?, ?)
@@ -305,7 +305,7 @@ def add_employee():
     #     print(email)
     #     print(department)
     #     print(designation)
-    
+
 
     return render_template("add_employee.html")
 
@@ -325,14 +325,14 @@ def api_update_employee(employee_id):
         cursor.execute(
             """
             UPDATE employees
-            SET 
-                first_name = ?, 
-                last_name = ?, 
-                email = ?, 
-                department = ?, 
+            SET
+                first_name = ?,
+                last_name = ?,
+                email = ?,
+                department = ?,
                 designation = ?
             WHERE employee_id = ?
-            """, 
+            """,
             (
                 data["first_name"],
                 data["last_name"],
@@ -376,20 +376,20 @@ def edit_employee(employee_id):
             cursor.execute(
                 """
                 UPDATE employees
-                SET 
-                    first_name = ?, 
-                    last_name = ?, 
-                    email = ?, 
-                    department = ?, 
+                SET
+                    first_name = ?,
+                    last_name = ?,
+                    email = ?,
+                    department = ?,
                     designation = ?
                 WHERE employee_id = ?
-                """, 
+                """,
                 (
-                    first_name, 
-                    last_name, 
-                    email, 
-                    department, 
-                    designation, 
+                    first_name,
+                    last_name,
+                    email,
+                    department,
+                    designation,
                     employee_id
                 )
             )
@@ -400,7 +400,7 @@ def edit_employee(employee_id):
             connection.close()
 
         return redirect("/employees")
-    
+
 
     # GET request
     connection = sqlite3.connect(DB_PATH)
@@ -409,18 +409,18 @@ def edit_employee(employee_id):
 
         cursor = connection.cursor()
 
-    
+
         cursor.execute(
             """
-            SELECT employee_id, 
-                   first_name, 
-                   last_name, 
-                   email, 
-                   department, 
+            SELECT employee_id,
+                   first_name,
+                   last_name,
+                   email,
+                   department,
                    designation
             FROM employees
             WHERE employee_id=?
-            """, 
+            """,
             (employee_id,)
         )
 
@@ -430,7 +430,7 @@ def edit_employee(employee_id):
         connection.close()
 
     return render_template(
-        "edit_employee.html", 
+        "edit_employee.html",
         employee=employee
     )
 
@@ -500,5 +500,7 @@ if __name__ == "__main__":
     app.run(
         host="127.0.0.1",
         port=5000,
-        debug=False
+        debug=False,
+        use_reloader=False
     )
+
