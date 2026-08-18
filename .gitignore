@@ -1,7 +1,32 @@
+# Python virtual environment
 venv/
+
+# Python cache
 __pycache__/
 *.pyc
-*.db
-.env
-.vscode/
+*.pyo
+
+# PyTest cache
 .pytest_cache/
+
+# Database files
+*.db
+
+# Environment files
+.env
+.env.*
+
+# IDE settings
+.vscode/
+.idea/
+
+# Test reports
+automation_framework/reports/
+reports/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
