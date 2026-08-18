@@ -31,56 +31,56 @@ jobs:
       - name: Create database
         shell: powershell
         run: |
+          Write-Host "Creating HRMS database..."
+
           python database/create_database.py
+
+          if (-not (Test-Path "database/hrms.db")) {
+              Write-Error "Database was not created."
+              exit 1
+          }
+
+          Write-Host "Database created successfully."
 
       - name: Verify database
         shell: powershell
         run: |
+          Write-Host "===== DATABASE FILE ====="
+
+          Get-Item "database/hrms.db" | Format-List FullName,Length,LastWriteTime
+
           Write-Host "===== DATABASE TABLES ====="
 
           python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\").fetchall()); c.close()"
 
-          Write-Host "===== EMPLOYEES ====="
+          Write-Host "===== EMPLOYEE DATA ====="
 
           python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute('SELECT employee_id, first_name, last_name, email, department, designation FROM employees').fetchall()); c.close()"
 
       - name: Start Flask application
         shell: powershell
         run: |
+          Write-Host "Starting Flask application..."
+
           $process = Start-Process python `
-              -ArgumentList "hrms_app/app.py" `
+              -ArgumentList "-u hrms_app/app.py" `
               -NoNewWindow `
               -PassThru `
               -RedirectStandardOutput "flask.log" `
               -RedirectStandardError "flask_error.log"
 
+          Write-Host "Flask process ID: $($process.Id)"
+
           $maxAttempts = 60
           $ready = $false
 
-          for ($i = 0; $i -lt $maxAttempts; $i++) {
+          for ($i = 1; $i -le $maxAttempts; $i++) {
 
-              Start-Sleep -Milliseconds 500
-
-              try {
-                  $null = Invoke-WebRequest `
-                      -Uri "http://127.0.0.1:5000/" `
-                      -UseBasicParsing `
-                      -TimeoutSec 2 `
-                      -ErrorAction Stop
-
-                  $ready = $true
-
-                  Write-Host "Flask application is ready."
-
-                  break
-              }
-              catch {
-                  Write-Host "Waiting for Flask... Attempt $($i + 1)/$maxAttempts"
-              }
+              Start-Sleep -Seconds 1
 
               if ($process.HasExited) {
 
-                  Write-Host "Flask application stopped unexpectedly."
+                  Write-Error "Flask process stopped unexpectedly."
 
                   Write-Host "===== FLASK OUTPUT ====="
 
@@ -95,6 +95,29 @@ jobs:
                   }
 
                   exit 1
+              }
+
+              try {
+
+                  $response = Invoke-WebRequest `
+                      -Uri "http://127.0.0.1:5000/" `
+                      -UseBasicParsing `
+                      -TimeoutSec 3 `
+                      -ErrorAction Stop
+
+                  if ($response.StatusCode -eq 200) {
+
+                      Write-Host "Flask application is ready."
+                      Write-Host "HTTP Status Code: $($response.StatusCode)"
+
+                      $ready = $true
+                      break
+                  }
+
+              }
+              catch {
+
+                  Write-Host "Waiting for Flask... Attempt $i/$maxAttempts"
               }
           }
 
@@ -120,80 +143,77 @@ jobs:
       - name: Verify environment before tests
         shell: powershell
         run: |
-          Write-Host "======================================"
+          Write-Host "=========================================="
           Write-Host "CURRENT DIRECTORY"
-          Write-Host "======================================"
+          Write-Host "=========================================="
 
           Get-Location
 
-          Write-Host "======================================"
+          Write-Host "=========================================="
           Write-Host "DATABASE FILE"
-          Write-Host "======================================"
+          Write-Host "=========================================="
 
           if (Test-Path "database/hrms.db") {
-              Write-Host "Database file EXISTS"
+              Write-Host "database/hrms.db EXISTS"
           }
           else {
-              Write-Error "Database file DOES NOT EXIST"
+              Write-Error "database/hrms.db DOES NOT EXIST"
               exit 1
           }
 
-          Write-Host "======================================"
+          Write-Host "=========================================="
           Write-Host "DATABASE TABLES"
-          Write-Host "======================================"
+          Write-Host "=========================================="
 
           python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\").fetchall()); c.close()"
 
-          Write-Host "======================================"
-          Write-Host "EMPLOYEES IN DATABASE"
-          Write-Host "======================================"
+          Write-Host "=========================================="
+          Write-Host "EMPLOYEES"
+          Write-Host "=========================================="
 
           python -c "import sqlite3; c=sqlite3.connect('database/hrms.db'); print(c.execute('SELECT employee_id, first_name, last_name, email, department, designation FROM employees').fetchall()); c.close()"
 
-          Write-Host "======================================"
+          Write-Host "=========================================="
           Write-Host "PYTHON PROCESSES"
-          Write-Host "======================================"
+          Write-Host "=========================================="
 
           Get-Process python -ErrorAction SilentlyContinue
 
-          Write-Host "======================================"
-          Write-Host "FLASK OUTPUT"
-          Write-Host "======================================"
+          Write-Host "=========================================="
+          Write-Host "FLASK LOG"
+          Write-Host "=========================================="
 
           if (Test-Path "flask.log") {
               Get-Content flask.log
           }
-          else {
-              Write-Host "flask.log does not exist"
-          }
 
-          Write-Host "======================================"
-          Write-Host "FLASK ERROR OUTPUT"
-          Write-Host "======================================"
+          Write-Host "=========================================="
+          Write-Host "FLASK ERROR LOG"
+          Write-Host "=========================================="
 
           if (Test-Path "flask_error.log") {
               Get-Content flask_error.log
           }
-          else {
-              Write-Host "flask_error.log does not exist"
-          }
 
-          Write-Host "======================================"
-          Write-Host "TESTING FLASK CONNECTION"
-          Write-Host "======================================"
+          Write-Host "=========================================="
+          Write-Host "FLASK CONNECTION TEST"
+          Write-Host "=========================================="
 
           try {
+
               $response = Invoke-WebRequest `
                   -Uri "http://127.0.0.1:5000/" `
                   -UseBasicParsing `
                   -TimeoutSec 5 `
                   -ErrorAction Stop
 
-              Write-Host "Flask HTTP Status Code: $($response.StatusCode)"
-              Write-Host "Flask application is reachable."
+              Write-Host "Flask Status Code: $($response.StatusCode)"
+              Write-Host "Flask is reachable."
+
           }
           catch {
-              Write-Error "Flask application is NOT reachable."
+
+              Write-Error "Flask is NOT reachable."
               Write-Error $_
               exit 1
           }
