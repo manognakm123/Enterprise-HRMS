@@ -1,5 +1,7 @@
 # Enterprise Human Resource Management System (HRMS)
 
+[![Enterprise HRMS CI](https://github.com/manognakm123/Enterprise-HRMS/actions/workflows/tests.yml/badge.svg)](https://github.com/manognakm123/Enterprise-HRMS/actions/workflows/tests.yml)
+
 A full-stack Human Resource Management System built with **Python and Flask**, supported by a structured **test automation framework** using **Playwright, PyTest, REST API automation, SQLite database validation, and HTML test reporting**.
 
 The project demonstrates end-to-end software testing across the **UI, API, database, and integration layers**, with automated execution through **GitHub Actions CI/CD**.
