@@ -226,12 +226,16 @@ jobs:
               Write-Host "Flask API is healthy."
 
               # -----------------------------------------
-              # Run pytest
+              # Run pytest and generate HTML report
               # -----------------------------------------
 
               Write-Host "Running pytest..."
 
-              pytest automation_framework/tests -v -s
+              New-Item -ItemType Directory -Force -Path "reports" | Out-Null
+
+              pytest automation_framework/tests -v -s `
+                  --html=reports/test_report.html `
+                  --self-contained-html
 
               if ($LASTEXITCODE -ne 0) {
                   throw "Pytest execution failed."
@@ -272,3 +276,14 @@ jobs:
                       -ErrorAction SilentlyContinue
               }
           }
+
+      # -----------------------------------------
+      # 7. Upload pytest HTML report
+      # -----------------------------------------
+      - name: Upload pytest HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-html-report
+          path: reports/test_report.html
+          if-no-files-found: warn
