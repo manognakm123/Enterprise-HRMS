@@ -19,9 +19,13 @@ def test_create_employee():
 
     if employee_exists(employee_id):
 
-        APIClient.delete(
+        cleanup_response = APIClient.delete(
             Endpoints.GET_EMPLOYEE(employee_id)
         )
+
+        assert cleanup_response.status_code == 200
+
+        assert not employee_exists(employee_id)
 
 
     response = APIClient.post(
@@ -34,8 +38,10 @@ def test_create_employee():
 
     assert employee_exists(employee_id)
 
-    response = APIClient.delete(
+    delete_response = APIClient.delete(
         Endpoints.GET_EMPLOYEE(employee_id)
     )
 
-    assert response.status_code == 200
+    assert delete_response.status_code == 200
+
+    assert not employee_exists(employee_id)

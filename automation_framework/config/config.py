@@ -1,13 +1,15 @@
+import os
+
 class Config:
 
-    BASE_URL = "http://127.0.0.1:5000"
+    BASE_URL = os.getenv("HRMS_BASE_URL", "http://127.0.0.1:5000")
 
-    USERNAME = "admin"
+    USERNAME = os.getenv("HRMS_USERNAME", "admin")
 
-    PASSWORD = "admin123"
+    PASSWORD = os.getenv("HRMS_PASSWORD", "admin123")
 
-    BROWSER = "chromium"
+    BROWSER = os.getenv("BROWSER", "chromium")
 
-    HEADLESS = False
+    HEADLESS = os.getenv("HEADLESS", "false").lower() == "true"
 
-    TIMEOUT = 30000
+    TIMEOUT = int(os.getenv("TIMEOUT", "30000"))

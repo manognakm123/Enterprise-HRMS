@@ -28,18 +28,6 @@ def test_update_employee():
 
     assert response.status_code == 201
 
-    # if response.status_code == 409:
-    #     APIClient.delete(
-    #         Endpoints.GET_EMPLOYEE("EMP101")
-    #     )
-
-    #     response = APIClient.post(
-    #         Endpoints.EMPLOYEES,
-    #         payload
-    #     )
-
-    # assert response.status_code == 201
-
 
     update_payload = {
         "first_name": "MS",
@@ -65,7 +53,7 @@ def test_update_employee():
 
 
     delete_response = APIClient.delete(
-        Endpoints.GET_EMPLOYEE("EMP101")
+        Endpoints.GET_EMPLOYEE(employee_id)
     )
 
     assert delete_response.status_code == 200
