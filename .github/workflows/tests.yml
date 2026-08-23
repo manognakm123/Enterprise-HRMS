@@ -118,7 +118,7 @@ jobs:
           Remove-Item verify_database.py -Force
 
       # -----------------------------------------
-      # 6. Start Flask + Run API and UI tests
+      # 6. Start Flask + Run marker-based tests
       # -----------------------------------------
       - name: Start Flask and run tests
         shell: powershell
@@ -226,22 +226,50 @@ jobs:
               Write-Host "Flask API is healthy."
 
               # -----------------------------------------
-              # Run pytest and generate HTML report
+              # Create reports directory
               # -----------------------------------------
-
-              Write-Host "Running pytest..."
 
               New-Item -ItemType Directory -Force -Path "reports" | Out-Null
 
-              pytest automation_framework/tests -v -s `
-                  --html=reports/test_report.html `
+              # -----------------------------------------
+              # Run smoke tests
+              # -----------------------------------------
+
+              Write-Host "========================================"
+              Write-Host "Running SMOKE tests..."
+              Write-Host "========================================"
+
+              pytest -m smoke -v -s `
+                  --html=reports/smoke_report.html `
                   --self-contained-html
 
               if ($LASTEXITCODE -ne 0) {
-                  throw "Pytest execution failed."
+                  throw "Smoke test execution failed."
               }
 
-              Write-Host "All tests passed."
+              Write-Host "Smoke tests passed successfully."
+
+              # -----------------------------------------
+              # Run regression tests
+              # -----------------------------------------
+
+              Write-Host "========================================"
+              Write-Host "Running REGRESSION tests..."
+              Write-Host "========================================"
+
+              pytest -m regression -v -s `
+                  --html=reports/regression_report.html `
+                  --self-contained-html
+
+              if ($LASTEXITCODE -ne 0) {
+                  throw "Regression test execution failed."
+              }
+
+              Write-Host "Regression tests passed successfully."
+
+              Write-Host "========================================"
+              Write-Host "All CI tests passed successfully."
+              Write-Host "========================================"
 
           }
           finally {
@@ -278,12 +306,23 @@ jobs:
           }
 
       # -----------------------------------------
-      # 7. Upload pytest HTML report
+      # 7. Upload Smoke Test Report
       # -----------------------------------------
-      - name: Upload pytest HTML report
+      - name: Upload smoke test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: pytest-html-report
-          path: reports/test_report.html
+          name: smoke-test-report
+          path: reports/smoke_report.html
+          if-no-files-found: warn
+
+      # -----------------------------------------
+      # 8. Upload Regression Test Report
+      # -----------------------------------------
+      - name: Upload regression test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regression-test-report
+          path: reports/regression_report.html
           if-no-files-found: warn
