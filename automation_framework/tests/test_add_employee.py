@@ -13,6 +13,9 @@ from utilities.database_helper import (
 
 
 @pytest.mark.ui
+@pytest.mark.database
+@pytest.mark.integration
+@pytest.mark.regression
 def test_add_employee(page):
 
     login = LoginPage(page)

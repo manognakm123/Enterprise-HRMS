@@ -16,6 +16,9 @@ test_data = read_csv(
 
 
 @pytest.mark.ui
+@pytest.mark.database
+@pytest.mark.integration
+@pytest.mark.regression
 @pytest.mark.parametrize(
     "employee_id, first_name, last_name, email, department, designation",
     test_data

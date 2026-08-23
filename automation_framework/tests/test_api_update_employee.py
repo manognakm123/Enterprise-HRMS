@@ -2,8 +2,11 @@ from api.api_client import APIClient
 from api.endpoints import Endpoints
 from utilities.database_helper import get_employee
 
+import pytest
 
 
+@pytest.mark.api
+@pytest.mark.regression
 def test_update_employee():
 
     employee_id = "EMP101"

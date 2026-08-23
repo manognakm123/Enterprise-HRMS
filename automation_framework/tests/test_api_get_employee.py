@@ -1,7 +1,10 @@
 from api.api_client import APIClient
 from api.endpoints import Endpoints
 
+import pytest
 
+@pytest.mark.api
+@pytest.mark.regression
 def test_get_employee():
 
     response = APIClient.get(
@@ -22,6 +25,8 @@ def test_get_employee():
 
 
 
+@pytest.mark.api
+@pytest.mark.regression
 def test_get_invalid_employee():
 
     response = APIClient.get(

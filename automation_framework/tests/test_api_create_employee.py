@@ -2,7 +2,11 @@ from api.api_client import APIClient
 from api.endpoints import Endpoints
 from utilities.database_helper import employee_exists
 
+import pytest
 
+
+@pytest.mark.api
+@pytest.mark.regression
 def test_create_employee():
 
 

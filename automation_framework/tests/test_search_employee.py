@@ -9,13 +9,14 @@ from utilities.database_helper import employee_exists, create_employee_for_test
 
 
 @pytest.mark.ui
+@pytest.mark.regression
 def test_search_employee(page):
 
     employee_id = "EMP001"
 
     if not employee_exists(employee_id):
         create_employee_for_test(employee_id)
-        
+
 
     login = LoginPage(page)
 

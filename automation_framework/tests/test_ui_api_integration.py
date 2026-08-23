@@ -9,8 +9,11 @@ from pages.login_page import LoginPage
 from pages.dashboard_page import DashboardPage
 from pages.employee_page import EmployeePage
 
+import pytest
 
 
+@pytest.mark.integration
+@pytest.mark.regression
 def test_ui_api_database_integration(page):
 
     payload = {

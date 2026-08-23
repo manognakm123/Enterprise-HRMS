@@ -1,10 +1,11 @@
 from api.endpoints import Endpoints
 from api.api_client import APIClient
 
+import pytest
 
-# BASE_URL = "http://127.0.0.1:5000"
-
-
+@pytest.mark.api
+@pytest.mark.smoke
+@pytest.mark.regression
 def test_get_all_employees():
 
     response = APIClient.get(
