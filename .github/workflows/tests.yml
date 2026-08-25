@@ -39,7 +39,35 @@ jobs:
           playwright install
 
       # -----------------------------------------
-      # 4. Create database
+      # 4. Install Allure CLI
+      # -----------------------------------------
+      - name: Install Allure CLI
+        shell: powershell
+        run: |
+          Write-Host "Installing Allure CLI..."
+
+          $allureVersion = "2.44.1"
+          $allureZip = "$env:RUNNER_TEMP\allure-$allureVersion.zip"
+          $allureDir = "$env:RUNNER_TEMP\allure-$allureVersion"
+
+          Invoke-WebRequest `
+              -Uri "https://github.com/allure-framework/allure2/releases/download/$allureVersion/allure-$allureVersion.zip" `
+              -OutFile $allureZip
+
+          Expand-Archive `
+              -Path $allureZip `
+              -DestinationPath $env:RUNNER_TEMP `
+              -Force
+
+          $env:Path += ";$allureDir\bin"
+
+          echo "$allureDir\bin" >> $env:GITHUB_PATH
+
+          Write-Host "Checking Allure installation..."
+          allure --version
+
+      # -----------------------------------------
+      # 5. Create database
       # -----------------------------------------
       - name: Create database
         shell: powershell
@@ -56,7 +84,7 @@ jobs:
           Write-Host "Database file created successfully."
 
       # -----------------------------------------
-      # 5. Verify database
+      # 6. Verify database
       # -----------------------------------------
       - name: Verify database
         shell: powershell
@@ -118,7 +146,7 @@ jobs:
           Remove-Item verify_database.py -Force
 
       # -----------------------------------------
-      # 6. Start Flask + Run marker-based tests
+      # 7. Start Flask + Run marker-based tests
       # -----------------------------------------
       - name: Start Flask and run tests
         shell: powershell
@@ -229,7 +257,19 @@ jobs:
               # Create reports directory
               # -----------------------------------------
 
-              New-Item -ItemType Directory -Force -Path "reports" | Out-Null
+              New-Item `
+                  -ItemType Directory `
+                  -Force `
+                  -Path "reports" | Out-Null
+
+              # -----------------------------------------
+              # Create Allure results directory
+              # -----------------------------------------
+
+              New-Item `
+                  -ItemType Directory `
+                  -Force `
+                  -Path "allure-results" | Out-Null
 
               # -----------------------------------------
               # Run smoke tests
@@ -241,7 +281,8 @@ jobs:
 
               pytest -m smoke -v -s `
                   --html=reports/smoke_report.html `
-                  --self-contained-html
+                  --self-contained-html `
+                  --alluredir=allure-results
 
               if ($LASTEXITCODE -ne 0) {
                   throw "Smoke test execution failed."
@@ -259,13 +300,32 @@ jobs:
 
               pytest -m regression -v -s `
                   --html=reports/regression_report.html `
-                  --self-contained-html
+                  --self-contained-html `
+                  --alluredir=allure-results
 
               if ($LASTEXITCODE -ne 0) {
                   throw "Regression test execution failed."
               }
 
               Write-Host "Regression tests passed successfully."
+
+              # -----------------------------------------
+              # Generate Allure report
+              # -----------------------------------------
+
+              Write-Host "========================================"
+              Write-Host "Generating ALLURE report..."
+              Write-Host "========================================"
+
+              allure generate allure-results `
+                  -o reports/allure-report `
+                  --clean
+
+              if ($LASTEXITCODE -ne 0) {
+                  throw "Allure report generation failed."
+              }
+
+              Write-Host "Allure report generated successfully."
 
               Write-Host "========================================"
               Write-Host "All CI tests passed successfully."
@@ -306,7 +366,7 @@ jobs:
           }
 
       # -----------------------------------------
-      # 7. Upload Smoke Test Report
+      # 8. Upload Smoke Test Report
       # -----------------------------------------
       - name: Upload smoke test report
         if: always()
@@ -317,7 +377,7 @@ jobs:
           if-no-files-found: warn
 
       # -----------------------------------------
-      # 8. Upload Regression Test Report
+      # 9. Upload Regression Test Report
       # -----------------------------------------
       - name: Upload regression test report
         if: always()
@@ -325,4 +385,26 @@ jobs:
         with:
           name: regression-test-report
           path: reports/regression_report.html
+          if-no-files-found: warn
+
+      # -----------------------------------------
+      # 10. Upload Allure Report
+      # -----------------------------------------
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: reports/allure-report
+          if-no-files-found: warn
+
+      # -----------------------------------------
+      # 11. Upload Allure Results
+      # -----------------------------------------
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
           if-no-files-found: warn
