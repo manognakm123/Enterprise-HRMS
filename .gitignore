@@ -33,3 +33,8 @@ Thumbs.db
 
 # Test artifacts
 automation_framework/screenshots/
+
+
+# Allure reports
+allure-results/
+allure-report/
